@@ -1,18 +1,33 @@
 # Alfred KeePass Workflow
 This Alfred workflow allows you to quickly search and copy passwords from your KeePass database without having to open the KeePass application.
 
+https://user-images.githubusercontent.com/4987502/218271746-efd28905-5d78-4c5f-b1b2-1fbd70b39e7f.mov
+
 ## Installation
-- Download the KeePass.alfredworkflow file from the releases section.
+- [Download the .alfredworkflow](https://github.com/mikyk10/alfred-keepass/tags) file from the [releases](https://github.com/mikyk10/alfred-keepass/tags) section.
 - Double click the downloaded file to import it into Alfred.
 
-or if you extremely care about security, you can build it on your own.
+or if you extremely care about security, you can build it on your own. See Contribution for more detail.
 
-- Download the repository. (You could fully inspect code base before proceeding the next.)
+- Clone the repository. (You could fully inspect code base before proceeding to the next.)
 - run `make`
 
 ## Setup
-1. Trigger Alfred by pressing the Alfred hotkey and type `kp`.
-2. Before using this workflow, make sure you to edit the configuration file, "~/.alkeepass". By doing #1, the default file will be created. This is necessary for securely storing your KeePass file location, credentials.
+Before using this workflow, make sure you follow these steps.
+
+1. Trigger Alfred by pressing the Alfred hotkey and type `kp`. By doing this, a default TOML configuration file, `~/.alkeepass`, will be created under the home directory.
+2.  Edit the configuration file using your favorite editor or just enter `open -a TextEdit ~/.alkeepass` in Terminal app. This is necessary for securely storing your KeePass file location, credentials.
+
+### Configuration Sample
+
+**~/.alkeepass**
+```
+kdbx_path = "/Users/foobar/test.kdbx"
+
+[encryption]
+type = "password"
+secret = "ThisIsMyDummyPassword"
+```
 
 ## Usage
 1. Trigger Alfred by pressing the Alfred hotkey.
@@ -22,6 +37,9 @@ or if you extremely care about security, you can build it on your own.
 
 Alternatively you can also copy `username` and `URL` by holding CMD or ALT before pressing Enter.
 
+## Limitation
+* Currently `master passoword` encrypted .kdbx is supported. Not much tested yet.
+
 ## Requirements
 * Alfred 4 or later with the Powerpack upgrade.
 * A KeePass database.
@@ -29,7 +47,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 ## Contribution
 I am very welcome any contributions to improve it. If you have any bug reports, feature requests, or code contributions, please open an issue or pull request on the GitHub repository.
 
-If you add a new feature, please make sure that any code comes with a working test suite to ensure the quality and reliability of the code. This will help to maintain the high standards of the project and ensure that any changes are thoroughly tested.
+If you add a new feature, please make sure that any code comes with a working test suite as much as you can to ensure the quality and reliability of the code. This will help to maintain the high standards of the project and ensure that any changes are thoroughly tested.
 
 ### Prerequisites
 Knowledge of Go programming language is required to contribute to this Alfred workflow. Please make sure to have Go installed on your development machine.
