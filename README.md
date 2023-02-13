@@ -8,19 +8,14 @@ This Alfred workflow allows you to quickly search and copy passwords from your K
 - Simple and intuitive interface.
 
 ## Installation
-- [Download the .alfredworkflow](https://github.com/mikyk10/alfred-keepass/tags) file from the [releases](https://github.com/mikyk10/alfred-keepass/tags) section.
-- Double click the downloaded file to import it into Alfred.
+1. [Download the .alfredworkflow](https://github.com/mikyk10/alfred-keepass/tags) file from the [releases](https://github.com/mikyk10/alfred-keepass/tags) section.
+2. Double click the downloaded file to import it into Alfred.
 
-or if you extremely care about security, you can build it on your own. See Contribution for more detail.
+or if you prefer building the app on your own. See Contribution for more detail.
 
-- Clone the repository. (You could fully inspect code base before proceeding to the next.)
-- run `make`
+3. Fill out the configuration with your KeePassXC database file path, master password, and key file(not yet supported).
 
-## Setup
-Before using this workflow, make sure you follow these steps.
-
-1. Trigger Alfred by pressing the Alfred hotkey and type `kp`. By doing this, a default TOML configuration file, `~/.alkeepass`, will be created under the home directory.
-2.  Edit the configuration file using your favorite editor or just enter `open -a TextEdit ~/.alkeepass` in Terminal app. This is necessary for securely storing your KeePass file location, credentials.
+<img width="1100" alt="installation" src="https://user-images.githubusercontent.com/4987502/218407644-7069c96a-7c63-4b94-8385-2c30e3bf45c0.png">
 
 ## Usage
 1. Trigger Alfred by pressing the Alfred hotkey.
