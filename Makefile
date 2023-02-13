@@ -8,5 +8,9 @@ open: bin/$(name).alfredworkflow
 
 build:
 	-rm bin/*.alfredworkflow
+	-pushd src; v=$$(git describe --tags); $(PLB) -c "Set:version $${v#v}" info.plist; popd
+	-pushd src; $(PLB) -c "Set:variables:keepassxc_db_path" info.plist; $(PLB) -c "Set:variables:keepassxc_master_password" info.plist;$(PLB) -c "Set:variables:keepassxc_keyfile_path" info.plist; popd
 	-pushd src/alkeepass.d; GOOS=darwin GOARCH=amd64 go build -o ../ alkeepass.go; popd
 	-pushd src; zip -r ../bin/$(name).alfredworkflow alkeepass icon.png info.plist; popd
+
+

@@ -7,8 +7,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
-	"github.com/tobischo/gokeepasslib"
+	"github.com/tobischo/gokeepasslib/v3"
 	"golang.org/x/text/unicode/norm"
 )
 
@@ -28,15 +27,15 @@ func searchMain(cmd *cobra.Command, args []string) {
 		panic("Must specify --alfred option.")
 	}
 
-	kbdxpath := viper.GetString("kdbx_path")
-	encType := viper.GetString("encryption.type")
+	kbdxpath := os.Getenv("keepassxc_db_path")
+	keyfilepath := os.Getenv("keepassxc_keyfile_path")
+
 	var cred *gokeepasslib.DBCredentials
-	switch encType {
-	case "none":
-	case "password":
-		cred = gokeepasslib.NewPasswordCredentials(strings.TrimSpace(viper.GetString("encryption.secret")))
-	case "key":
-		cred, _ = gokeepasslib.NewKeyCredentials("")
+
+	if keyfilepath == "" {
+		cred = gokeepasslib.NewPasswordCredentials(strings.TrimSpace(os.Getenv("keepassxc_master_password")))
+	} else {
+		cred, _ = gokeepasslib.NewKeyCredentials(keyfilepath)
 	}
 
 	alf := search(kbdxpath, cred, args)
@@ -67,10 +66,10 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 	alf := AlfredJSON{}
 	for i, item := range kpe {
 		uuid, _ := item.Entry.UUID.MarshalText()
-		path := strings.Join(kpe[i].Path, " > ")
+		path := strings.Join(kpe[i].Path, "/")[5:]
 		for j := range query {
 			// AlfredからNFDで正規化された文字列が渡されるのでComposeし、英小文字に統一
-			if !strings.Contains(path, norm.NFC.String(strings.ToLower(query[j]))) {
+			if !strings.Contains(strings.ToLower(path), norm.NFC.String(strings.ToLower(query[j]))) {
 				goto cont
 			}
 		}
@@ -81,15 +80,17 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 			Subtitle: path,
 
 			Mods: AlfredMods{
-				Alt: AlfredModItem{
-					Arg:      item.Entry.GetContent("URL"),
-					Subtitle: item.Entry.GetContent("URL"),
-					Valid:    true,
-				},
 				Cmd: AlfredModItem{
-					Arg:      item.Entry.GetContent("UserName"),
-					Subtitle: item.Entry.GetContent("UserName"),
-					Valid:    true,
+					Arg:   item.Entry.GetContent("UserName"),
+					Valid: true,
+				},
+				Alt: AlfredModItem{
+					Arg:   item.Entry.GetContent("URL"),
+					Valid: true,
+				},
+				Ctrl: AlfredModItem{
+					Arg:   path,
+					Valid: true,
 				},
 			},
 			Arg: item.Entry.GetPassword(),
@@ -101,12 +102,12 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 	return &alf
 }
 
-func scan(g []gokeepasslib.Group, path []string, args []string, result *[]KPEntry) {
-	for i := range g {
+func scan(groups []gokeepasslib.Group, path []string, args []string, result *[]KPEntry) {
+	for i := range groups {
 		dup1 := make([]string, len(path))
 		copy(dup1, path)
-		dup1 = append(dup1, strings.ToLower(g[i].Name))
-		scan(g[i].Groups, dup1, args, result)
+		dup1 = append(dup1, groups[i].Name)
+		scan(groups[i].Groups, dup1, args, result)
 
 		if len(dup1) >= 2 {
 			switch dup1[1] {
@@ -117,16 +118,16 @@ func scan(g []gokeepasslib.Group, path []string, args []string, result *[]KPEntr
 			}
 		}
 
-		for j := range g[i].Entries {
-			vd := g[i].Entries[j].Get("Title")
+		for j := range groups[i].Entries {
+			vd := groups[i].Entries[j].Get("Title")
 
 			dup2 := make([]string, len(dup1))
 			copy(dup2, dup1)
-			dup2 = append(dup2, strings.ToLower(vd.Value.Content))
+			dup2 = append(dup2, vd.Value.Content)
 
 			*result = append(*result, KPEntry{
 				Path:  dup2,
-				Entry: g[i].Entries[j],
+				Entry: groups[i].Entries[j],
 			})
 		}
 	}
