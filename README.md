@@ -36,7 +36,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 
 ## Requirements
 
-* Alfred 4 or later with the Powerpack upgrade.
+* Alfred 5 or later with the Powerpack upgrade.
 * A KeePass database.
 * KeepassXC for TOTP.
 
