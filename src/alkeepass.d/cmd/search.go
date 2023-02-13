@@ -29,13 +29,26 @@ func searchMain(cmd *cobra.Command, args []string) {
 
 	kbdxpath := os.Getenv("keepassxc_db_path")
 	keyfilepath := os.Getenv("keepassxc_keyfile_path")
+	passwd := strings.TrimSpace(os.Getenv("keepassxc_master_password"))
 
 	var cred *gokeepasslib.DBCredentials
 
-	if keyfilepath == "" {
-		cred = gokeepasslib.NewPasswordCredentials(strings.TrimSpace(os.Getenv("keepassxc_master_password")))
+	if passwd != "" {
+		if keyfilepath != "" {
+			// password and keyfile
+			cred, _ = gokeepasslib.NewPasswordAndKeyCredentials(passwd, keyfilepath)
+		} else {
+			// password only
+			cred = gokeepasslib.NewPasswordCredentials(passwd)
+		}
 	} else {
-		cred, _ = gokeepasslib.NewKeyCredentials(keyfilepath)
+		if keyfilepath != "" {
+			// keyfile only
+			cred, _ = gokeepasslib.NewKeyCredentials(keyfilepath)
+		} else {
+			// all blank
+			panic("Your must either configure `keepassxc_master_password` or `keepassxc_keyfile_path`")
+		}
 	}
 
 	alf := search(kbdxpath, cred, args)
@@ -52,23 +65,22 @@ func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) *
 		panic(err)
 	}
 
-	// Note: This is a simplified example and the groups and entries will depend on the specific file.
-	// bound checking for the slices is recommended to avoid panics.
 	root := db.Content.Root
 	result := []KPEntry{}
-	scan(root.Groups, []string{}, query, &result)
-	alf := readEntries(result, query)
+	scan(root.Groups, []string{}, query, &result) // start recursive scan
+	alf := readEntries(result, query)             // search
 
 	return alf
 }
 
+// readEntries scans all entries in []KPEntry for filtered result
 func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 	alf := AlfredJSON{}
 	for i, item := range kpe {
 		uuid, _ := item.Entry.UUID.MarshalText()
-		path := strings.Join(kpe[i].Path, "/")[5:]
+		path := strings.Join(kpe[i].Path, "/")[5:] // remove "Root/" from path
 		for j := range query {
-			// AlfredからNFDで正規化された文字列が渡されるのでComposeし、英小文字に統一
+			// Convert NFD normalized query string to NFC and compare 2 strings with lower case.
 			if !strings.Contains(strings.ToLower(path), norm.NFC.String(strings.ToLower(query[j]))) {
 				goto cont
 			}
@@ -88,6 +100,10 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 					Arg:   item.Entry.GetContent("URL"),
 					Valid: true,
 				},
+				AltShift: AlfredModItem{
+					Arg:   item.Entry.GetContent("URL"),
+					Valid: true,
+				},
 				Ctrl: AlfredModItem{
 					Arg:   path,
 					Valid: true,
@@ -102,6 +118,7 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 	return &alf
 }
 
+// scan recursively reads KeePass groups and build an one dimensional slice for later search.
 func scan(groups []gokeepasslib.Group, path []string, args []string, result *[]KPEntry) {
 	for i := range groups {
 		dup1 := make([]string, len(path))

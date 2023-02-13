@@ -8,6 +8,78 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
+		<key>138BCF0C-4382-4E17-AE5D-1907C8A1976F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>48AC8AA5-02BF-4CD9-B432-6593489D92ED</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>1F195254-B8C5-4C28-8235-898211A08C2E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B8C69488-702C-4E3F-982E-151A40509543</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>D2BB2B14-1167-4C87-9D1E-4312E5EAA01A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>298D37E2-5DF5-4CC9-AC1E-975328E6FF60</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>D8F1709F-9D3B-4B74-8553-2CAEA0673B79</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>FC22BDD2-0870-4886-8B58-7D306E8EE9FF</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>D8F1709F-9D3B-4B74-8553-2CAEA0673B79</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>86ADDA57-FC4C-4176-8314-2761EFE0DBA6</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>86DD8120-27B2-45FB-8CB9-81041162B45B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>248D0B84-9583-477C-868E-594AA30B4F37</key>
 		<array>
 			<dict>
@@ -21,15 +93,69 @@
 				<false/>
 			</dict>
 		</array>
-		<key>F73B4172-5C12-4BAF-B7AD-B53D338E1893</key>
+		<key>32D2AA5B-72CB-4C76-84ED-20EFCC856405</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>E745386E-68B1-43FB-ACE7-912986530B60</string>
 				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>298D37E2-5DF5-4CC9-AC1E-975328E6FF60</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>48AC8AA5-02BF-4CD9-B432-6593489D92ED</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>1F195254-B8C5-4C28-8235-898211A08C2E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>834D4C82-6CD3-40B1-8B1C-03E8E0081223</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>32D2AA5B-72CB-4C76-84ED-20EFCC856405</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>E4C62605-BA65-4DD5-B1D9-C0F1D745A36F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>834D4C82-6CD3-40B1-8B1C-03E8E0081223</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>F73B4172-5C12-4BAF-B7AD-B53D338E1893</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E4C62605-BA65-4DD5-B1D9-C0F1D745A36F</string>
+				<key>modifiers</key>
 				<integer>262144</integer>
 				<key>modifiersubtext</key>
-				<string>🔐 Copy TOTP</string>
+				<string>💭 Copy others...</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -63,6 +189,16 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</string>
+				<key>modifiers</key>
+				<integer>655360</integer>
+				<key>modifiersubtext</key>
+				<string>🌏 Open URL</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 		</array>
 	</dict>
 	<key>createdby</key>
@@ -75,6 +211,35 @@
 	<string>KeePass</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>fixedorder</key>
+				<false/>
+				<key>items</key>
+				<string>[{"title":"Note","arg":"note","subtitle":"📄 Copy note"},{"title":"TOTP","arg":"totp","subtitle":"🔐 Copy MFA Token (if available)"}]</string>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>834D4C82-6CD3-40B1-8B1C-03E8E0081223</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -97,6 +262,58 @@
 			<string>E745386E-68B1-43FB-ACE7-912986530B60</string>
 			<key>version</key>
 			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>totp</string>
+						<key>outputlabel</key>
+						<string>totp</string>
+						<key>uid</key>
+						<string>298D37E2-5DF5-4CC9-AC1E-975328E6FF60</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string></string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>32D2AA5B-72CB-4C76-84ED-20EFCC856405</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>KP_ITEM_PATH</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>E4C62605-BA65-4DD5-B1D9-C0F1D745A36F</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -207,6 +424,27 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<true/>
+				<key>skipvarencode</key>
+				<true/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>2</integer>
 				<key>keyword</key>
@@ -246,65 +484,327 @@
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>The workflow is up to date!</string>
+				<key>title</key>
+				<string>Alfred KeePass Workflow</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>D2BB2B14-1167-4C87-9D1E-4312E5EAA01A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>up2date</string>
+						<key>outputlabel</key>
+						<string>up2date</string>
+						<key>uid</key>
+						<string>298D37E2-5DF5-4CC9-AC1E-975328E6FF60</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>ahead</string>
+						<key>outputlabel</key>
+						<string>ahead</string>
+						<key>uid</key>
+						<string>FC22BDD2-0870-4886-8B58-7D306E8EE9FF</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string></string>
+						<key>outputlabel</key>
+						<string>error</string>
+						<key>uid</key>
+						<string>86ADDA57-FC4C-4176-8314-2761EFE0DBA6</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>new version</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>1F195254-B8C5-4C28-8235-898211A08C2E</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string># Get the latest release version 
+# avoid using `jq`; it does not come with macOS out of the box
+v=$(curl https://api.github.com/repos/mikyk10/alfred-keepass/releases/latest | grep '"tag_name": ' | grep -Eo 'v\d+\.\d+\.\d+'); v=${v#v}
+
+latest=$v
+current=$alfred_workflow_version
+
+if [[ "ok" == "$(echo | awk "(${latest} &gt; ${current}) { print \"ok\"; }")" ]]; then
+    echo -n ${latest}
+elif [[ "ok" == "$(echo | awk "(${latest} == ${current}) { print \"ok\"; }")" ]]; then
+    echo "up2date"
+else
+    echo "ahead"
+fi</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>48AC8AA5-02BF-4CD9-B432-6593489D92ED</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>{var:alf_keyword}:check</string>
+				<key>subtext</key>
+				<string>Check for updates for the workflow</string>
+				<key>text</key>
+				<string>Check for updates</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>138BCF0C-4382-4E17-AE5D-1907C8A1976F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>[WARNING] sometghing went wrong.</string>
+				<key>title</key>
+				<string>Alfred KeePass Workflow</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>D8F1709F-9D3B-4B74-8553-2CAEA0673B79</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>New version v{query} is available!</string>
+				<key>title</key>
+				<string>Alfred KeePass Workflow</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>86DD8120-27B2-45FB-8CB9-81041162B45B</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>138BCF0C-4382-4E17-AE5D-1907C8A1976F</key>
+		<dict>
+			<key>note</key>
+			<string>Check for updates for the workflow.</string>
+			<key>xpos</key>
+			<real>430</real>
+			<key>ypos</key>
+			<real>810</real>
+		</dict>
 		<key>1A634AF1-4B3F-4AAD-945E-EDDA7491E744</key>
 		<dict>
+			<key>note</key>
+			<string>Copy password</string>
 			<key>xpos</key>
-			<real>795</real>
+			<real>880</real>
 			<key>ypos</key>
-			<real>285</real>
+			<real>315</real>
+		</dict>
+		<key>1F195254-B8C5-4C28-8235-898211A08C2E</key>
+		<dict>
+			<key>xpos</key>
+			<real>860</real>
+			<key>ypos</key>
+			<real>800</real>
 		</dict>
 		<key>248D0B84-9583-477C-868E-594AA30B4F37</key>
 		<dict>
 			<key>note</key>
 			<string>Open the project page on github.</string>
 			<key>xpos</key>
-			<real>435</real>
+			<real>430</real>
 			<key>ypos</key>
-			<real>535</real>
+			<real>610</real>
+		</dict>
+		<key>32D2AA5B-72CB-4C76-84ED-20EFCC856405</key>
+		<dict>
+			<key>xpos</key>
+			<real>1060</real>
+			<key>ypos</key>
+			<real>45</real>
 		</dict>
 		<key>3922AA2B-3922-47A4-9FC0-C943DE520F42</key>
 		<dict>
+			<key>note</key>
+			<string>Copy URL</string>
 			<key>xpos</key>
-			<real>795</real>
+			<real>880</real>
 			<key>ypos</key>
-			<real>400</real>
+			<real>455</real>
 		</dict>
-		<key>6FB35745-C5A7-4BE6-9DA3-95C92076B026</key>
-		<dict>
-			<key>xpos</key>
-			<real>795</real>
-			<key>ypos</key>
-			<real>170</real>
-		</dict>
-		<key>B8C69488-702C-4E3F-982E-151A40509543</key>
+		<key>48AC8AA5-02BF-4CD9-B432-6593489D92ED</key>
 		<dict>
 			<key>xpos</key>
 			<real>650</real>
 			<key>ypos</key>
-			<real>535</real>
+			<real>810</real>
+		</dict>
+		<key>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</key>
+		<dict>
+			<key>xpos</key>
+			<real>580</real>
+			<key>ypos</key>
+			<real>460</real>
+		</dict>
+		<key>6FB35745-C5A7-4BE6-9DA3-95C92076B026</key>
+		<dict>
+			<key>note</key>
+			<string>Copy Username</string>
+			<key>xpos</key>
+			<real>880</real>
+			<key>ypos</key>
+			<real>170</real>
+		</dict>
+		<key>834D4C82-6CD3-40B1-8B1C-03E8E0081223</key>
+		<dict>
+			<key>note</key>
+			<string>Copy other attributes</string>
+			<key>xpos</key>
+			<real>880</real>
+			<key>ypos</key>
+			<real>25</real>
+		</dict>
+		<key>86DD8120-27B2-45FB-8CB9-81041162B45B</key>
+		<dict>
+			<key>xpos</key>
+			<real>1075</real>
+			<key>ypos</key>
+			<real>985</real>
+		</dict>
+		<key>B8C69488-702C-4E3F-982E-151A40509543</key>
+		<dict>
+			<key>xpos</key>
+			<real>1150</real>
+			<key>ypos</key>
+			<real>610</real>
+		</dict>
+		<key>D2BB2B14-1167-4C87-9D1E-4312E5EAA01A</key>
+		<dict>
+			<key>xpos</key>
+			<real>1075</real>
+			<key>ypos</key>
+			<real>765</real>
+		</dict>
+		<key>D8F1709F-9D3B-4B74-8553-2CAEA0673B79</key>
+		<dict>
+			<key>xpos</key>
+			<real>1075</real>
+			<key>ypos</key>
+			<real>875</real>
+		</dict>
+		<key>E4C62605-BA65-4DD5-B1D9-C0F1D745A36F</key>
+		<dict>
+			<key>note</key>
+			<string>Saves a Keepass entry term to an environment variable.</string>
+			<key>xpos</key>
+			<real>670</real>
+			<key>ypos</key>
+			<real>55</real>
 		</dict>
 		<key>E745386E-68B1-43FB-ACE7-912986530B60</key>
 		<dict>
 			<key>note</key>
 			<string>run keepassxc-cli to copy TOTP</string>
 			<key>xpos</key>
-			<real>795</real>
+			<real>1215</real>
 			<key>ypos</key>
-			<real>20</real>
+			<real>25</real>
 		</dict>
 		<key>F73B4172-5C12-4BAF-B7AD-B53D338E1893</key>
 		<dict>
 			<key>note</key>
 			<string>Search .kdbx entries</string>
 			<key>xpos</key>
-			<real>435</real>
+			<real>375</real>
 			<key>ypos</key>
-			<real>285</real>
+			<real>210</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>

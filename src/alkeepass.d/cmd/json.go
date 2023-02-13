@@ -1,9 +1,10 @@
 package cmd
 
 type AlfredMods struct {
-	Alt  AlfredModItem `json:"alt"`
-	Cmd  AlfredModItem `json:"cmd"`
-	Ctrl AlfredModItem `json:"ctrl,omitempty"`
+	Alt      AlfredModItem `json:"alt"`
+	Cmd      AlfredModItem `json:"cmd"`
+	Ctrl     AlfredModItem `json:"ctrl,omitempty"`
+	AltShift AlfredModItem `json:"alt+shift,omitempty"`
 }
 type AlfredModItem struct {
 	Valid    bool   `json:"valid"`
