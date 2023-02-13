@@ -1,8 +1,0 @@
-# Path to your .kdbx file
-kdbx_path = "[PATH TO YOUR KDBX FILE]"
-
-[encryption]
-# none, password are supported  
-type = "password"
-# password/key string
-secret = "[HERE COMES YOUR PASSWORD FOR THE KDBX]"

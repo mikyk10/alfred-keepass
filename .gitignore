@@ -1,2 +1,4 @@
 alkeepass
 bin/*
+src/info.plist
+Makefile

@@ -4,7 +4,7 @@ import (
 	"io"
 
 	"github.com/pkg/errors"
-	"github.com/tobischo/gokeepasslib"
+	"github.com/tobischo/gokeepasslib/v3"
 )
 
 func openKbdx(rd io.Reader, credentials *gokeepasslib.DBCredentials) (*gokeepasslib.Database, error) {
