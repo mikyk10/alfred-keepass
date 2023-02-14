@@ -6,7 +6,7 @@ This Alfred workflow allows you to quickly search and copy passwords from your K
 ![218271746-efd28905-5d78-4c5f-b1b2-1fbd70b39e7f](https://user-images.githubusercontent.com/4987502/218368795-c5f4dfd6-32a4-4b15-9602-0c60bcf04c31.gif)
 
 ## Features
-<<<<<<< HEAD
+
 - Built on Golang for faster search performance. 
 - KDB3 and KDB4 are supported.
 - TOTP, attributes and attached files are supported powered by keepassxc-cli
