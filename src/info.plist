@@ -8,11 +8,65 @@
 	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
+		<key>03C52792-311C-4DBC-BC07-60BBD02AD330</key>
+		<array/>
+		<key>0439D588-D780-4261-B62C-044F3F87014F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A91B5ED2-C7BC-42C5-BE25-C299E7A90979</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>127F85B0-AC0F-4FBD-A986-622E9A7501AF</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>03C52792-311C-4DBC-BC07-60BBD02AD330</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>138BCF0C-4382-4E17-AE5D-1907C8A1976F</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>48AC8AA5-02BF-4CD9-B432-6593489D92ED</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>15261710-9C44-4CD7-A5ED-592B9FD66C98</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>03C52792-311C-4DBC-BC07-60BBD02AD330</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>188CE593-8A77-4A25-BA7E-328FF7141356</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>03C52792-311C-4DBC-BC07-60BBD02AD330</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -93,8 +147,45 @@
 				<false/>
 			</dict>
 		</array>
+		<key>3245CC2C-FC62-43E6-B01A-ED1B0EA3934E</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>32D2AA5B-72CB-4C76-84ED-20EFCC856405</key>
 		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>298D37E2-5DF5-4CC9-AC1E-975328E6FF60</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>178E6B3C-7835-4CC7-A4C4-F3077A78E206</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>148D5C60-D547-4A70-B14B-EA946A7D9643</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
 			<dict>
 				<key>destinationuid</key>
 				<string>E745386E-68B1-43FB-ACE7-912986530B60</string>
@@ -104,6 +195,41 @@
 				<string></string>
 				<key>sourceoutputuid</key>
 				<string>298D37E2-5DF5-4CC9-AC1E-975328E6FF60</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>EEC7BC47-9C07-413B-8865-D8FE31217D39</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>9E118213-021B-49C6-A441-AE6E87CA3D15</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>127F85B0-AC0F-4FBD-A986-622E9A7501AF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>3F676799-F097-4BC8-A266-7536A4B010C0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>32D2AA5B-72CB-4C76-84ED-20EFCC856405</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -121,11 +247,37 @@
 				<false/>
 			</dict>
 		</array>
-		<key>834D4C82-6CD3-40B1-8B1C-03E8E0081223</key>
+		<key>4FAA07D8-0CD5-484E-B3A4-19C416786345</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>32D2AA5B-72CB-4C76-84ED-20EFCC856405</string>
+				<string>03C52792-311C-4DBC-BC07-60BBD02AD330</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>69004857-90FF-41E5-B695-C151659B1AA1</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3245CC2C-FC62-43E6-B01A-ED1B0EA3934E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>B64F5820-7244-48F3-B6F5-CC1E84773482</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>03C52792-311C-4DBC-BC07-60BBD02AD330</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -138,7 +290,30 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>834D4C82-6CD3-40B1-8B1C-03E8E0081223</string>
+				<string>3F676799-F097-4BC8-A266-7536A4B010C0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>EEC7BC47-9C07-413B-8865-D8FE31217D39</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A8324C0F-E0A7-4B44-96C4-072969B066D1</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>070A7800-BC4D-4479-BC3F-6ACCCB30FAC7</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -155,23 +330,13 @@
 				<key>modifiers</key>
 				<integer>262144</integer>
 				<key>modifiersubtext</key>
-				<string>💭 Copy others...</string>
+				<string>🗯️ Copy others...</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>6FB35745-C5A7-4BE6-9DA3-95C92076B026</string>
-				<key>modifiers</key>
-				<integer>1048576</integer>
-				<key>modifiersubtext</key>
-				<string>👤 Copy Username</string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>1A634AF1-4B3F-4AAD-945E-EDDA7491E744</string>
+				<string>15261710-9C44-4CD7-A5ED-592B9FD66C98</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -181,7 +346,17 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>3922AA2B-3922-47A4-9FC0-C943DE520F42</string>
+				<string>4FAA07D8-0CD5-484E-B3A4-19C416786345</string>
+				<key>modifiers</key>
+				<integer>1048576</integer>
+				<key>modifiersubtext</key>
+				<string>👤 Copy Username</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>B64F5820-7244-48F3-B6F5-CC1E84773482</string>
 				<key>modifiers</key>
 				<integer>524288</integer>
 				<key>modifiersubtext</key>
@@ -191,11 +366,21 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</string>
+				<string>188CE593-8A77-4A25-BA7E-328FF7141356</string>
+				<key>modifiers</key>
+				<integer>1572864</integer>
+				<key>modifiersubtext</key>
+				<string>📄 Copy Notes</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>69004857-90FF-41E5-B695-C151659B1AA1</string>
 				<key>modifiers</key>
 				<integer>655360</integer>
 				<key>modifiersubtext</key>
-				<string>🌏 Open URL</string>
+				<string>🖥️ Open URL</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -214,54 +399,86 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>fixedorder</key>
+				<key>lastpathcomponent</key>
 				<false/>
-				<key>items</key>
-				<string>[{"title":"Note","arg":"note","subtitle":"📄 Copy note"},{"title":"TOTP","arg":"totp","subtitle":"🔐 Copy MFA Token (if available)"}]</string>
-				<key>matchmode</key>
-				<integer>0</integer>
-				<key>runningsubtext</key>
-				<string></string>
-				<key>subtext</key>
-				<string></string>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>TOTP token is copied.</string>
 				<key>title</key>
-				<string></string>
-				<key>withspace</key>
-				<false/>
+				<string>{var:wf_name}</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.input.listfilter</string>
+			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>834D4C82-6CD3-40B1-8B1C-03E8E0081223</string>
+			<string>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
+				<key>argument</key>
+				<string>{var:alf_keyword} {var:USR_QUERY}</string>
+				<key>leftcursor</key>
 				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.showalfred</string>
+			<key>uid</key>
+			<string>178E6B3C-7835-4CC7-A4C4-F3077A78E206</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
 				<key>escaping</key>
 				<integer>102</integer>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<false/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string></string>
 				<key>script</key>
-				<string>echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b --totp $keepassxc_db_path "{query}"</string>
+				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
+./alkeepass get "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string></string>
 				<key>type</key>
 				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.script</string>
+			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>E745386E-68B1-43FB-ACE7-912986530B60</string>
+			<string>3F676799-F097-4BC8-A266-7536A4B010C0</string>
 			<key>version</key>
-			<integer>2</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -276,15 +493,43 @@
 						<key>matchmode</key>
 						<integer>0</integer>
 						<key>matchstring</key>
-						<string>totp</string>
+						<string>back</string>
 						<key>outputlabel</key>
-						<string>totp</string>
+						<string>back</string>
+						<key>uid</key>
+						<string>148D5C60-D547-4A70-B14B-EA946A7D9643</string>
+					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>otp</string>
+						<key>outputlabel</key>
+						<string>otp</string>
 						<key>uid</key>
 						<string>298D37E2-5DF5-4CC9-AC1E-975328E6FF60</string>
 					</dict>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>_file</string>
+						<key>outputlabel</key>
+						<string>file</string>
+						<key>uid</key>
+						<string>9E118213-021B-49C6-A441-AE6E87CA3D15</string>
+					</dict>
 				</array>
 				<key>elselabel</key>
-				<string></string>
+				<string>{query}</string>
 				<key>hideelse</key>
 				<false/>
 			</dict>
@@ -304,8 +549,10 @@
 				<false/>
 				<key>variables</key>
 				<dict>
-					<key>KP_ITEM_PATH</key>
+					<key>ITEM_PATH</key>
 					<string>{query}</string>
+					<key>USR_QUERY</key>
+					<string>{var:query}</string>
 				</dict>
 			</dict>
 			<key>type</key>
@@ -318,21 +565,150 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
-				<true/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>ignoredynamicplaceholders</key>
+				<key>concurrently</key>
 				<false/>
-				<key>transient</key>
-				<true/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
+echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$q"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
+			<string>alfred.workflow.action.script</string>
 			<key>uid</key>
-			<string>6FB35745-C5A7-4BE6-9DA3-95C92076B026</string>
+			<string>E745386E-68B1-43FB-ACE7-912986530B60</string>
 			<key>version</key>
-			<integer>3</integer>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{var:filename} has been saved under ~/Downloads/</string>
+				<key>title</key>
+				<string>{var:wf_name}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>A8324C0F-E0A7-4B44-96C4-072969B066D1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
+echo "$keepassxc_master_password" | $keepassxc_cli_path attachment-export "$keepassxc_db_path" "$q" "$filename" "$HOME/Downloads/$filename"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>EEC7BC47-9C07-413B-8865-D8FE31217D39</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>ATTR</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>127F85B0-AC0F-4FBD-A986-622E9A7501AF</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>path</key>
+				<string>~/Downloads/{var:filename}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.revealfile</string>
+			<key>uid</key>
+			<string>070A7800-BC4D-4479-BC3F-6ACCCB30FAC7</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>ATTR</key>
+					<string>password</string>
+					<key>ITEM_PATH</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>15261710-9C44-4CD7-A5ED-592B9FD66C98</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
+echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" "$q" 0</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>03C52792-311C-4DBC-BC07-60BBD02AD330</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -362,7 +738,7 @@
 				<key>runningsubtext</key>
 				<string>Loading results...</string>
 				<key>script</key>
-				<string>./alkeepass search --alfred {query}</string>
+				<string>./alkeepass search {query}</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -370,7 +746,7 @@
 				<key>subtext</key>
 				<string>Find .kdbx entry by {keywords}...</string>
 				<key>title</key>
-				<string>Find KeePass Entry</string>
+				<string>🔍 Find KeePass Entry</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -386,40 +762,134 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
-				<true/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>ignoredynamicplaceholders</key>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
 				<false/>
-				<key>transient</key>
-				<true/>
+				<key>variables</key>
+				<dict>
+					<key>ATTR</key>
+					<string>username</string>
+					<key>ITEM_PATH</key>
+					<string>{query}</string>
+				</dict>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
+			<string>alfred.workflow.utility.argument</string>
 			<key>uid</key>
-			<string>1A634AF1-4B3F-4AAD-945E-EDDA7491E744</string>
+			<string>4FAA07D8-0CD5-484E-B3A4-19C416786345</string>
 			<key>version</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>autopaste</key>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
 				<false/>
-				<key>clipboardtext</key>
-				<string>{query}</string>
-				<key>ignoredynamicplaceholders</key>
+				<key>variables</key>
+				<dict>
+					<key>ATTR</key>
+					<string>url</string>
+					<key>ITEM_PATH</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>B64F5820-7244-48F3-B6F5-CC1E84773482</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
 				<false/>
-				<key>transient</key>
+				<key>variables</key>
+				<dict>
+					<key>ATTR</key>
+					<string>notes</string>
+					<key>ITEM_PATH</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>188CE593-8A77-4A25-BA7E-328FF7141356</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>ATTR</key>
+					<string>url</string>
+					<key>ITEM_PATH</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>69004857-90FF-41E5-B695-C151659B1AA1</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>qlmanage -p ./help.md</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>A91B5ED2-C7BC-42C5-BE25-C299E7A90979</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>{var:alf_keyword}:help</string>
+				<key>subtext</key>
+				<string>Show usage</string>
+				<key>text</key>
+				<string>❓Help</string>
+				<key>withspace</key>
 				<false/>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.output.clipboard</string>
+			<string>alfred.workflow.input.keyword</string>
 			<key>uid</key>
-			<string>3922AA2B-3922-47A4-9FC0-C943DE520F42</string>
+			<string>0439D588-D780-4261-B62C-044F3F87014F</string>
 			<key>version</key>
-			<integer>3</integer>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -445,6 +915,30 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
+echo "$keepassxc_master_password" | $keepassxc_cli_path show -a $ATTR "$keepassxc_db_path" "$q"</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>3245CC2C-FC62-43E6-B01A-ED1B0EA3934E</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>argumenttype</key>
 				<integer>2</integer>
 				<key>keyword</key>
@@ -452,7 +946,7 @@
 				<key>subtext</key>
 				<string>Open the project page on github.</string>
 				<key>text</key>
-				<string>About</string>
+				<string>💳 About</string>
 				<key>withspace</key>
 				<false/>
 			</dict>
@@ -496,7 +990,7 @@
 				<key>text</key>
 				<string>The workflow is up to date!</string>
 				<key>title</key>
-				<string>Alfred KeePass Workflow</string>
+				<string>{var:wf_name}</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
@@ -568,6 +1062,27 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>{var:alf_keyword}:check</string>
+				<key>subtext</key>
+				<string>Check for updates for the workflow</string>
+				<key>text</key>
+				<string>🆕 Check for updates</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>138BCF0C-4382-4E17-AE5D-1907C8A1976F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
@@ -583,9 +1098,9 @@ current=$alfred_workflow_version
 if [[ "ok" == "$(echo | awk "(${latest} &gt; ${current}) { print \"ok\"; }")" ]]; then
     echo -n ${latest}
 elif [[ "ok" == "$(echo | awk "(${latest} == ${current}) { print \"ok\"; }")" ]]; then
-    echo "up2date"
+    echo -n "up2date"
 else
-    echo "ahead"
+    echo -n "ahead"
 fi</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
@@ -604,27 +1119,6 @@ fi</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>2</integer>
-				<key>keyword</key>
-				<string>{var:alf_keyword}:check</string>
-				<key>subtext</key>
-				<string>Check for updates for the workflow</string>
-				<key>text</key>
-				<string>Check for updates</string>
-				<key>withspace</key>
-				<false/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.keyword</string>
-			<key>uid</key>
-			<string>138BCF0C-4382-4E17-AE5D-1907C8A1976F</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
@@ -634,7 +1128,7 @@ fi</string>
 				<key>text</key>
 				<string>[WARNING] sometghing went wrong.</string>
 				<key>title</key>
-				<string>Alfred KeePass Workflow</string>
+				<string>{var:wf_name}</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
@@ -655,7 +1149,7 @@ fi</string>
 				<key>text</key>
 				<string>New version v{query} is available!</string>
 				<key>title</key>
-				<string>Alfred KeePass Workflow</string>
+				<string>{var:wf_name}</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.output.notification</string>
@@ -666,145 +1160,250 @@ fi</string>
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string># Alfred KeePass Workflow
+This Alfred workflow allows you to quickly search and copy passwords from your KeePass database without having to open the KeePass application.
+
+## Requirements
+
+* Alfred 5 or later with the Powerpack upgrade.
+* KeepassXC
+* A KeePass database.
+
+## Installation
+1. [Download the .alfredworkflow](https://github.com/mikyk10/alfred-keepass/tags) file from the [releases](https://github.com/mikyk10/alfred-keepass/tags) section.
+2. Double click the downloaded file to import it into Alfred.
+
+or if you prefer building the app on your own. See Contribution for more detail.
+
+3. Fill out the configuration with your KeePassXC database file path, master password, and key file(not yet supported).
+
+## Usage
+1. Trigger Alfred by pressing the Alfred hotkey.
+2. Type `kp` followed by the name of the password you are searching for.
+3. Select the desired password from the list of results.
+4. The password will be automatically copied to your clipboard.
+
+Alternatively you can also copy `username` and `URL` by holding CMD or ALT before pressing Enter.</string>
 	<key>uidata</key>
 	<dict>
+		<key>03C52792-311C-4DBC-BC07-60BBD02AD330</key>
+		<dict>
+			<key>note</key>
+			<string>run keepassxc-cli to copy an attribute</string>
+			<key>xpos</key>
+			<real>1185</real>
+			<key>ypos</key>
+			<real>510</real>
+		</dict>
+		<key>0439D588-D780-4261-B62C-044F3F87014F</key>
+		<dict>
+			<key>note</key>
+			<string>Help</string>
+			<key>xpos</key>
+			<real>150</real>
+			<key>ypos</key>
+			<real>720</real>
+		</dict>
+		<key>070A7800-BC4D-4479-BC3F-6ACCCB30FAC7</key>
+		<dict>
+			<key>xpos</key>
+			<real>1440</real>
+			<key>ypos</key>
+			<real>400</real>
+		</dict>
+		<key>127F85B0-AC0F-4FBD-A986-622E9A7501AF</key>
+		<dict>
+			<key>xpos</key>
+			<real>850</real>
+			<key>ypos</key>
+			<real>370</real>
+		</dict>
 		<key>138BCF0C-4382-4E17-AE5D-1907C8A1976F</key>
 		<dict>
 			<key>note</key>
 			<string>Check for updates for the workflow.</string>
 			<key>xpos</key>
-			<real>430</real>
+			<real>150</real>
 			<key>ypos</key>
-			<real>810</real>
+			<real>1145</real>
 		</dict>
-		<key>1A634AF1-4B3F-4AAD-945E-EDDA7491E744</key>
+		<key>15261710-9C44-4CD7-A5ED-592B9FD66C98</key>
+		<dict>
+			<key>xpos</key>
+			<real>580</real>
+			<key>ypos</key>
+			<real>485</real>
+		</dict>
+		<key>178E6B3C-7835-4CC7-A4C4-F3077A78E206</key>
 		<dict>
 			<key>note</key>
-			<string>Copy password</string>
+			<string>Calls the first workflow</string>
 			<key>xpos</key>
-			<real>880</real>
+			<real>845</real>
 			<key>ypos</key>
-			<real>315</real>
+			<real>80</real>
+		</dict>
+		<key>188CE593-8A77-4A25-BA7E-328FF7141356</key>
+		<dict>
+			<key>xpos</key>
+			<real>580</real>
+			<key>ypos</key>
+			<real>635</real>
 		</dict>
 		<key>1F195254-B8C5-4C28-8235-898211A08C2E</key>
 		<dict>
 			<key>xpos</key>
-			<real>860</real>
+			<real>575</real>
 			<key>ypos</key>
-			<real>800</real>
+			<real>1135</real>
 		</dict>
 		<key>248D0B84-9583-477C-868E-594AA30B4F37</key>
 		<dict>
 			<key>note</key>
 			<string>Open the project page on github.</string>
 			<key>xpos</key>
-			<real>430</real>
+			<real>150</real>
 			<key>ypos</key>
-			<real>610</real>
+			<real>945</real>
+		</dict>
+		<key>3245CC2C-FC62-43E6-B01A-ED1B0EA3934E</key>
+		<dict>
+			<key>xpos</key>
+			<real>840</real>
+			<key>ypos</key>
+			<real>745</real>
 		</dict>
 		<key>32D2AA5B-72CB-4C76-84ED-20EFCC856405</key>
 		<dict>
 			<key>xpos</key>
-			<real>1060</real>
+			<real>715</real>
 			<key>ypos</key>
-			<real>45</real>
+			<real>140</real>
 		</dict>
-		<key>3922AA2B-3922-47A4-9FC0-C943DE520F42</key>
+		<key>3F676799-F097-4BC8-A266-7536A4B010C0</key>
 		<dict>
-			<key>note</key>
-			<string>Copy URL</string>
 			<key>xpos</key>
-			<real>880</real>
+			<real>550</real>
 			<key>ypos</key>
-			<real>455</real>
+			<real>135</real>
 		</dict>
 		<key>48AC8AA5-02BF-4CD9-B432-6593489D92ED</key>
 		<dict>
 			<key>xpos</key>
-			<real>650</real>
+			<real>365</real>
 			<key>ypos</key>
-			<real>810</real>
+			<real>1145</real>
 		</dict>
-		<key>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</key>
+		<key>4FAA07D8-0CD5-484E-B3A4-19C416786345</key>
 		<dict>
 			<key>xpos</key>
 			<real>580</real>
 			<key>ypos</key>
-			<real>460</real>
+			<real>535</real>
 		</dict>
-		<key>6FB35745-C5A7-4BE6-9DA3-95C92076B026</key>
+		<key>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</key>
 		<dict>
-			<key>note</key>
-			<string>Copy Username</string>
 			<key>xpos</key>
-			<real>880</real>
+			<real>1185</real>
 			<key>ypos</key>
-			<real>170</real>
+			<real>745</real>
 		</dict>
-		<key>834D4C82-6CD3-40B1-8B1C-03E8E0081223</key>
+		<key>69004857-90FF-41E5-B695-C151659B1AA1</key>
 		<dict>
-			<key>note</key>
-			<string>Copy other attributes</string>
 			<key>xpos</key>
-			<real>880</real>
+			<real>580</real>
 			<key>ypos</key>
-			<real>25</real>
+			<real>685</real>
 		</dict>
 		<key>86DD8120-27B2-45FB-8CB9-81041162B45B</key>
 		<dict>
 			<key>xpos</key>
-			<real>1075</real>
+			<real>1185</real>
 			<key>ypos</key>
-			<real>985</real>
+			<real>1370</real>
+		</dict>
+		<key>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</key>
+		<dict>
+			<key>xpos</key>
+			<real>1185</real>
+			<key>ypos</key>
+			<real>55</real>
+		</dict>
+		<key>A8324C0F-E0A7-4B44-96C4-072969B066D1</key>
+		<dict>
+			<key>xpos</key>
+			<real>1440</real>
+			<key>ypos</key>
+			<real>270</real>
+		</dict>
+		<key>A91B5ED2-C7BC-42C5-BE25-C299E7A90979</key>
+		<dict>
+			<key>xpos</key>
+			<real>345</real>
+			<key>ypos</key>
+			<real>720</real>
+		</dict>
+		<key>B64F5820-7244-48F3-B6F5-CC1E84773482</key>
+		<dict>
+			<key>xpos</key>
+			<real>580</real>
+			<key>ypos</key>
+			<real>585</real>
 		</dict>
 		<key>B8C69488-702C-4E3F-982E-151A40509543</key>
 		<dict>
 			<key>xpos</key>
-			<real>1150</real>
+			<real>1185</real>
 			<key>ypos</key>
-			<real>610</real>
+			<real>950</real>
 		</dict>
 		<key>D2BB2B14-1167-4C87-9D1E-4312E5EAA01A</key>
 		<dict>
 			<key>xpos</key>
-			<real>1075</real>
+			<real>1185</real>
 			<key>ypos</key>
-			<real>765</real>
+			<real>1100</real>
 		</dict>
 		<key>D8F1709F-9D3B-4B74-8553-2CAEA0673B79</key>
 		<dict>
 			<key>xpos</key>
-			<real>1075</real>
+			<real>1185</real>
 			<key>ypos</key>
-			<real>875</real>
+			<real>1235</real>
 		</dict>
 		<key>E4C62605-BA65-4DD5-B1D9-C0F1D745A36F</key>
 		<dict>
-			<key>note</key>
-			<string>Saves a Keepass entry term to an environment variable.</string>
 			<key>xpos</key>
-			<real>670</real>
+			<real>435</real>
 			<key>ypos</key>
-			<real>55</real>
+			<real>165</real>
 		</dict>
 		<key>E745386E-68B1-43FB-ACE7-912986530B60</key>
 		<dict>
 			<key>note</key>
 			<string>run keepassxc-cli to copy TOTP</string>
 			<key>xpos</key>
-			<real>1215</real>
+			<real>1185</real>
 			<key>ypos</key>
-			<real>25</real>
+			<real>175</real>
+		</dict>
+		<key>EEC7BC47-9C07-413B-8865-D8FE31217D39</key>
+		<dict>
+			<key>note</key>
+			<string>run keepassxc-cli to extract an attached file</string>
+			<key>xpos</key>
+			<real>1185</real>
+			<key>ypos</key>
+			<real>330</real>
 		</dict>
 		<key>F73B4172-5C12-4BAF-B7AD-B53D338E1893</key>
 		<dict>
 			<key>note</key>
 			<string>Search .kdbx entries</string>
 			<key>xpos</key>
-			<real>375</real>
+			<real>150</real>
 			<key>ypos</key>
-			<real>210</real>
+			<real>525</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -879,9 +1478,11 @@ fi</string>
 		<string>kp</string>
 		<key>keepassxc_cli_path</key>
 		<string>/usr/local/bin/keepassxc-cli</string>
+		<key>wf_name</key>
+		<string>Alfred KeePass Workflow</string>
 	</dict>
 	<key>version</key>
-	<string>0.0.2</string>
+	<string>0.1.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/mikyk10/alfred-keepass</string>
 </dict>
