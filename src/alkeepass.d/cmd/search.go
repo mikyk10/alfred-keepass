@@ -247,6 +247,10 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 			Arg: path,
 		}
 
+		if entry.Entry.Times.Expires.Bool {
+			item.Title = "🚫(Expired) " + item.Title
+		}
+
 		if entry.Entry.GetContent("UserName") != "" {
 			item.Mods.Cmd.Valid = true
 			item.Mods.Cmd.Icon = nil
