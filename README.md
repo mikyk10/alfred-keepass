@@ -1,7 +1,7 @@
 # Alfred KeePass Workflow
 This Alfred workflow allows you to quickly search and copy passwords from your KeePass database without having to open the KeePass application.
 
-<img src="https://img.shields.io/github/license/mikyk10/alfred-keepass"> <img src="https://img.shields.io/github/last-commit/mikyk10/alfred-keepass"> <img src="https://img.shields.io/github/downloads/mikyk10/alfred-keepass/total">
+[![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social)](https://twitter.com/intent/tweet?text=Alfred%205%20Workflow%20to%20quickly%20search%20and%20copy%20KeePass%20attributes.&hashtags=Alfred,KeePassXC&url=https://github.com/mikyk10/alfred-keepass) <img src="https://img.shields.io/github/last-commit/mikyk10/alfred-keepass"> <img src="https://img.shields.io/github/downloads/mikyk10/alfred-keepass/total">
 
 ![demo](https://user-images.githubusercontent.com/4987502/218909942-34f80265-de15-4338-8238-b7cd2d2d6ddf.gif)
 
