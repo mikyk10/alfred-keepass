@@ -311,16 +311,6 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>070A7800-BC4D-4479-BC3F-6ACCCB30FAC7</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
 		</array>
 		<key>F73B4172-5C12-4BAF-B7AD-B53D338E1893</key>
 		<array>
@@ -750,7 +740,7 @@ echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b -a $ATTR "$keepa
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
-				<false/>
+				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
