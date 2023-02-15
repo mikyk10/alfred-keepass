@@ -284,9 +284,9 @@ func scan(groups []gokeepasslib.Group, path []string, args []string, result *[]K
 
 		if len(dup1) >= 2 {
 			switch dup1[1] {
-			case "backup":
+			case "Backup":
 				fallthrough
-			case "recycle bin":
+			case "Recycle Bin":
 				return
 			}
 		}
