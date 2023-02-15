@@ -3,7 +3,7 @@ This Alfred workflow allows you to quickly search and copy passwords from your K
 
 <img src="https://img.shields.io/github/license/mikyk10/alfred-keepass"> <img src="https://img.shields.io/github/last-commit/mikyk10/alfred-keepass"> <img src="https://img.shields.io/github/downloads/mikyk10/alfred-keepass/total">
 
-![218271746-efd28905-5d78-4c5f-b1b2-1fbd70b39e7f](https://user-images.githubusercontent.com/4987502/218368795-c5f4dfd6-32a4-4b15-9602-0c60bcf04c31.gif)
+![demo](https://user-images.githubusercontent.com/4987502/218909942-34f80265-de15-4338-8238-b7cd2d2d6ddf.gif)
 
 ## Features
 
