@@ -23,6 +23,12 @@ or if you prefer building the app on your own. See Contribution for more detail.
 
 <img width="1100" alt="installation" src="https://user-images.githubusercontent.com/4987502/218407644-7069c96a-7c63-4b94-8385-2c30e3bf45c0.png">
 
+4. Run the following command in terminal to make a symbolic link.
+
+```
+ln -s /Applications/KeePassXC.app//Contents/MacOS/keepassxc-cli /usr/local/bin
+```
+
 ## Usage
 1. Trigger Alfred by pressing the Alfred hotkey.
 2. Type `kp` followed by the name of the password you are searching for.
