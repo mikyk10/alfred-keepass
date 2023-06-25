@@ -11,3 +11,8 @@ build:
 	-pushd src; v=$$(git describe --tags); $(PLB) -c "Set:version $${v#v}" info.plist; popd
 	-pushd src/alkeepass.d; GOOS=darwin GOARCH=amd64 go build -o ../ alkeepass.go; popd
 	-pushd src; zip -r ../bin/$(name).alfredworkflow alkeepass icon*.png *.md info.plist; popd
+
+
+update: build
+	cp -f src/alkeepass '/path/to/Alfred.alfredpreferences/workflows/user.workflow.XXXX/'
+	cp -f '/path/to/Alfred.alfredpreferences/workflows/user.workflow.XXXX/info.plist' src/	

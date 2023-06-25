@@ -1472,7 +1472,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 		<string>Alfred KeePass Workflow</string>
 	</dict>
 	<key>version</key>
-	<string>0.1.1</string>
+	<string>0.1.2</string>
 	<key>webaddress</key>
 	<string>https://github.com/mikyk10/alfred-keepass</string>
 </dict>
