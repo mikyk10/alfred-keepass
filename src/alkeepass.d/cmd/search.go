@@ -70,8 +70,8 @@ func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) *
 
 	root := db.Content.Root
 	result := []KPEntry{}
-	scan(root.Groups, []string{}, query, &result) // start recursive scan
-	alf := readEntries(result, query)             // search
+	scan(&root.Groups, []string{}, query, &result) // start recursive scan
+	alf := readEntries(result, query)              // search
 	alf.Variables.Query = strings.Join(query, " ")
 
 	return alf
@@ -113,8 +113,8 @@ func getMain(cmd *cobra.Command, args []string) {
 	path := args[0]
 	root := db.Content.Root
 	result := []KPEntry{}
-	scan(root.Groups, []string{}, args, &result) // start recursive scan
-	alf := AlfredJSON{}                          // search
+	scan(&root.Groups, []string{}, args, &result) // start recursive scan
+	alf := AlfredJSON{}                           // search
 
 	entry := getEntry(result, path)
 	if entry == nil {
@@ -275,24 +275,25 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 }
 
 // scan recursively reads KeePass groups and build an one dimensional slice for later search.
-func scan(groups []gokeepasslib.Group, path []string, args []string, result *[]KPEntry) {
-	for i := range groups {
+func scan(groups *[]gokeepasslib.Group, path []string, args []string, result *[]KPEntry) {
+	for _, grp := range *groups {
+
 		dup1 := make([]string, len(path))
 		copy(dup1, path)
-		dup1 = append(dup1, groups[i].Name)
-		scan(groups[i].Groups, dup1, args, result)
+		dup1 = append(dup1, grp.Name)
+		scan(&grp.Groups, dup1, args, result)
 
 		if len(dup1) >= 2 {
 			switch dup1[1] {
 			case "Backup":
 				fallthrough
 			case "Recycle Bin":
-				return
+				continue
 			}
 		}
 
-		for j := range groups[i].Entries {
-			vd := groups[i].Entries[j].Get("Title")
+		for _, ent := range grp.Entries {
+			vd := ent.Get("Title")
 
 			dup2 := make([]string, len(dup1))
 			copy(dup2, dup1)
@@ -300,7 +301,7 @@ func scan(groups []gokeepasslib.Group, path []string, args []string, result *[]K
 
 			*result = append(*result, KPEntry{
 				Path:  dup2,
-				Entry: groups[i].Entries[j],
+				Entry: ent,
 			})
 		}
 	}
