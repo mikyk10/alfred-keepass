@@ -58,7 +58,7 @@ Knowledge of Go programming language is required to contribute to this Alfred wo
 ## Disclaimer
 This Alfred workflow is provided "as is" with no express or implied warranties. The authors and copyright holders are not responsible for any liability arising from the use of this software. By using it, you agree to take full responsibility for any consequences that may arise.
 
-Please note that this workflow has been confirmed to not contain any malicious code. However, it is important to regularly review your security practices to ensure the safety of your sensitive information.
+Please note that this workflow has not yet been fully confirmed not to contain any malicious code across all dependencies.
 
 ## TODO
 * Write `README.md`
