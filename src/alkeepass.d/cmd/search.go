@@ -165,6 +165,12 @@ func getMain(cmd *cobra.Command, args []string) {
 			Subtitle: "Generate TOTP token",
 			Arg:      "otp",
 		})
+		alf.Items = append(alf.Items, AlfredJSONItem{
+			Uid:      "7",
+			Title:    "🔐#️⃣ TOTP+Password",
+			Subtitle: "Generate TOTP token + Password combined",
+			Arg:      "otppass",
+		})
 	}
 	for i, item := range entry.Entry.Values {
 		switch item.Key {
