@@ -268,15 +268,11 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 		uuid, _ := entry.Entry.UUID.MarshalText()
 		path := strings.Join(kpe[i].Path[1:], "/") // remove the top-level (root) group from path
 
-		var item AlfredJSONItem
-		for j := range query {
-			// Convert NFD normalized query string to NFC and compare 2 strings with lower case.
-			if !strings.Contains(strings.ToLower(path), norm.NFC.String(strings.ToLower(query[j]))) {
-				goto cont
-			}
+		if !matchesQuery(path, query) {
+			continue
 		}
 
-		item = AlfredJSONItem{
+		item := AlfredJSONItem{
 			Uid:      string(uuid),
 			Title:    entry.Entry.GetTitle(),
 			Subtitle: path,
@@ -314,11 +310,23 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 		}
 
 		alf.Items = append(alf.Items, item)
-
-	cont:
 	}
 
 	return &alf
+}
+
+// matchesQuery reports whether path contains every query term. Comparison is
+// case-insensitive and both sides are normalized to Unicode NFC first, so a
+// query typed in NFD (as macOS often produces) still matches an entry name
+// stored in NFC, and vice versa.
+func matchesQuery(path string, query []string) bool {
+	p := norm.NFC.String(strings.ToLower(path))
+	for _, q := range query {
+		if !strings.Contains(p, norm.NFC.String(strings.ToLower(q))) {
+			return false
+		}
+	}
+	return true
 }
 
 // scan recursively reads KeePass groups and build an one dimensional slice for later search.
