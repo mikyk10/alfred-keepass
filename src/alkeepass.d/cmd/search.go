@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/tobischo/gokeepasslib/v3"
@@ -253,7 +254,9 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 			Arg: path,
 		}
 
-		if entry.Entry.Times.Expires.Bool {
+		if entry.Entry.Times.Expires.Bool &&
+			entry.Entry.Times.ExpiryTime != nil &&
+			entry.Entry.Times.ExpiryTime.Time.Before(time.Now()) {
 			item.Title = "🚫(Expired) " + item.Title
 		}
 
