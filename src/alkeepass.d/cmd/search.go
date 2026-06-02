@@ -49,21 +49,42 @@ var getCmd = &cobra.Command{
 }
 
 func searchMain(cmd *cobra.Command, args []string) {
-	kbdxpath := os.Getenv("keepassxc_db_path")
-	keyfilepath := os.Getenv("keepassxc_keyfile_path")
-	passwd := strings.TrimSpace(os.Getenv("keepassxc_master_password"))
-
-	cred, err := buildCredentials(passwd, keyfilepath)
-	if err != nil {
-		panic(err)
-	}
-
-	alf, err := search(kbdxpath, cred, args)
-	if err != nil {
-		panic(err)
-	}
+	alf := runSearch(
+		os.Getenv("keepassxc_db_path"),
+		os.Getenv("keepassxc_keyfile_path"),
+		strings.TrimSpace(os.Getenv("keepassxc_master_password")),
+		args,
+	)
 	s, _ := json.Marshal(alf)
 	fmt.Println(string(s))
+}
+
+// errorJSON renders err as a single, non-actionable Alfred item so the user
+// sees what went wrong (e.g. a missing database or a wrong password) instead
+// of the workflow silently breaking on an unparseable panic stack trace.
+func errorJSON(err error) *AlfredJSON {
+	alf := &AlfredJSON{}
+	alf.Items = append(alf.Items, AlfredJSONItem{
+		Uid:      "error",
+		Title:    "⚠️ " + err.Error(),
+		Subtitle: "alfred-keepass could not complete the request",
+	})
+	return alf
+}
+
+// runSearch resolves credentials, runs the search and converts any error into
+// an Alfred error item.
+func runSearch(kbdxpath, keyfilepath, passwd string, query []string) *AlfredJSON {
+	cred, err := buildCredentials(passwd, keyfilepath)
+	if err != nil {
+		return errorJSON(err)
+	}
+
+	alf, err := search(kbdxpath, cred, query)
+	if err != nil {
+		return errorJSON(err)
+	}
+	return alf
 }
 
 // openDatabase opens and decodes the KeePass database at kbdxpath. The error
@@ -95,21 +116,29 @@ func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) (
 }
 
 func getMain(cmd *cobra.Command, args []string) {
-	kbdxpath := os.Getenv("keepassxc_db_path")
-	keyfilepath := os.Getenv("keepassxc_keyfile_path")
-	passwd := strings.TrimSpace(os.Getenv("keepassxc_master_password"))
-
-	cred, err := buildCredentials(passwd, keyfilepath)
-	if err != nil {
-		panic(err)
-	}
-
-	alf, err := get(kbdxpath, cred, args[0])
-	if err != nil {
-		panic(err)
-	}
+	alf := runGet(
+		os.Getenv("keepassxc_db_path"),
+		os.Getenv("keepassxc_keyfile_path"),
+		strings.TrimSpace(os.Getenv("keepassxc_master_password")),
+		args[0],
+	)
 	s, _ := json.Marshal(alf)
 	fmt.Println(string(s))
+}
+
+// runGet resolves credentials, builds the entry detail view and converts any
+// error into an Alfred error item.
+func runGet(kbdxpath, keyfilepath, passwd, entryPath string) *AlfredJSON {
+	cred, err := buildCredentials(passwd, keyfilepath)
+	if err != nil {
+		return errorJSON(err)
+	}
+
+	alf, err := get(kbdxpath, cred, entryPath)
+	if err != nil {
+		return errorJSON(err)
+	}
+	return alf
 }
 
 // get builds the detail view for a single entry identified by entryPath.
