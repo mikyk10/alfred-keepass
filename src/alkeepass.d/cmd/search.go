@@ -120,21 +120,26 @@ func getMain(cmd *cobra.Command, args []string) {
 		os.Getenv("keepassxc_db_path"),
 		os.Getenv("keepassxc_keyfile_path"),
 		strings.TrimSpace(os.Getenv("keepassxc_master_password")),
-		args[0],
+		args,
 	)
 	s, _ := json.Marshal(alf)
 	fmt.Println(string(s))
 }
 
 // runGet resolves credentials, builds the entry detail view and converts any
-// error into an Alfred error item.
-func runGet(kbdxpath, keyfilepath, passwd, entryPath string) *AlfredJSON {
+// error into an Alfred error item. The entry path is taken from the first
+// argument; a missing argument is reported instead of panicking on args[0].
+func runGet(kbdxpath, keyfilepath, passwd string, args []string) *AlfredJSON {
+	if len(args) == 0 {
+		return errorJSON(errors.New("no entry path given"))
+	}
+
 	cred, err := buildCredentials(passwd, keyfilepath)
 	if err != nil {
 		return errorJSON(err)
 	}
 
-	alf, err := get(kbdxpath, cred, entryPath)
+	alf, err := get(kbdxpath, cred, args[0])
 	if err != nil {
 		return errorJSON(err)
 	}

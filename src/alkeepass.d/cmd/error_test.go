@@ -38,14 +38,20 @@ func TestRunSearchAndGetReportErrors(t *testing.T) {
 		assert.Equal(t, "Entry1", alf.Items[0].Title)
 	})
 
+	t.Run("get with no argument", func(t *testing.T) {
+		alf := runGet(dbPath, "", "Abc12345", nil)
+		assert.Len(t, alf.Items, 1)
+		assert.True(t, strings.HasPrefix(alf.Items[0].Title, "⚠️"))
+	})
+
 	t.Run("get missing entry", func(t *testing.T) {
-		alf := runGet(dbPath, "", "Abc12345", "NoSuchEntry")
+		alf := runGet(dbPath, "", "Abc12345", []string{"NoSuchEntry"})
 		assert.Len(t, alf.Items, 1)
 		assert.True(t, strings.HasPrefix(alf.Items[0].Title, "⚠️"))
 	})
 
 	t.Run("get happy path", func(t *testing.T) {
-		alf := runGet(dbPath, "", "Abc12345", "Entry1")
+		alf := runGet(dbPath, "", "Abc12345", []string{"Entry1"})
 		assert.Equal(t, "← Back", alf.Items[0].Title)
 	})
 }
