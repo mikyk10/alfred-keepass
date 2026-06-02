@@ -213,7 +213,7 @@ func getMain(cmd *cobra.Command, args []string) {
 // readEntries scans all entries in []KPEntry for filtered result
 func getEntry(kpe []KPEntry, path string) *KPEntry {
 	for i, entry := range kpe {
-		entryPath := strings.Join(kpe[i].Path, "/")[5:] // remove "Root/" from path
+		entryPath := strings.Join(kpe[i].Path[1:], "/") // remove the top-level (root) group from path
 		if entryPath != path {
 			continue
 		}
@@ -227,7 +227,7 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 	alf := AlfredJSON{}
 	for i, entry := range kpe {
 		uuid, _ := entry.Entry.UUID.MarshalText()
-		path := strings.Join(kpe[i].Path, "/")[5:] // remove "Root/" from path
+		path := strings.Join(kpe[i].Path[1:], "/") // remove the top-level (root) group from path
 
 		var item AlfredJSONItem
 		for j := range query {
