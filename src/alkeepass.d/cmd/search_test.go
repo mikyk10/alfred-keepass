@@ -10,11 +10,13 @@ import (
 
 func TestKBDX(t *testing.T) {
 	var alf *AlfredJSON
+	var err error
 
 	cred := gokeepasslib.NewPasswordCredentials("Abc12345")
 
 	// Entry1 lives directly under the top-level group and has UserName, URL and Notes.
-	alf = search(filepath.Join("testdata", "test.kdbx"), cred, []string{"Entry1"})
+	alf, err = search(filepath.Join("testdata", "test.kdbx"), cred, []string{"Entry1"})
+	assert.NoError(t, err)
 	assert.Equal(t, "Entry1", alf.Items[0].Title)
 	// The top-level "Root" group must be stripped from the path (issue #1).
 	assert.Equal(t, "Entry1", alf.Items[0].Subtitle)
@@ -27,7 +29,8 @@ func TestKBDX(t *testing.T) {
 	assert.NotEmpty(t, alf.Items[0].Uid)
 
 	// Entry2 has UserName and URL but no Notes.
-	alf = search(filepath.Join("testdata", "test.kdbx"), cred, []string{"Entry2"})
+	alf, err = search(filepath.Join("testdata", "test.kdbx"), cred, []string{"Entry2"})
+	assert.NoError(t, err)
 	assert.Equal(t, "Entry2", alf.Items[0].Title)
 	assert.Equal(t, "Entry2", alf.Items[0].Subtitle)
 	assert.Equal(t, "Entry2", alf.Items[0].Arg)

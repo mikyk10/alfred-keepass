@@ -58,18 +58,31 @@ func searchMain(cmd *cobra.Command, args []string) {
 		panic(err)
 	}
 
-	alf := search(kbdxpath, cred, args)
+	alf, err := search(kbdxpath, cred, args)
+	if err != nil {
+		panic(err)
+	}
 	s, _ := json.Marshal(alf)
 	fmt.Println(string(s))
 }
 
-func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) *AlfredJSON {
-	file, _ := os.Open(kbdxpath)
+// openDatabase opens and decodes the KeePass database at kbdxpath. The error
+// from os.Open (e.g. a missing or unreadable database file) is no longer
+// discarded so the caller can report it instead of crashing on a nil reader.
+func openDatabase(kbdxpath string, cred *gokeepasslib.DBCredentials) (*gokeepasslib.Database, error) {
+	file, err := os.Open(kbdxpath)
+	if err != nil {
+		return nil, errors.WithStack(err)
+	}
 	defer file.Close()
 
-	db, err := openKbdx(file, cred)
+	return openKbdx(file, cred)
+}
+
+func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) (*AlfredJSON, error) {
+	db, err := openDatabase(kbdxpath, cred)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
 	root := db.Content.Root
@@ -78,7 +91,7 @@ func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) *
 	alf := readEntries(result, query)              // search
 	alf.Variables.Query = strings.Join(query, " ")
 
-	return alf
+	return alf, nil
 }
 
 func getMain(cmd *cobra.Command, args []string) {
@@ -91,24 +104,33 @@ func getMain(cmd *cobra.Command, args []string) {
 		panic(err)
 	}
 
-	file, _ := os.Open(kbdxpath)
-	defer file.Close()
-
-	db, err := openKbdx(file, cred)
+	alf, err := get(kbdxpath, cred, args[0])
 	if err != nil {
 		panic(err)
 	}
+	s, _ := json.Marshal(alf)
+	fmt.Println(string(s))
+}
 
-	path := args[0]
+// get builds the detail view for a single entry identified by entryPath.
+// It returns an error when the database cannot be opened or the entry does
+// not exist, rather than panicking.
+func get(kbdxpath string, cred *gokeepasslib.DBCredentials, entryPath string) (*AlfredJSON, error) {
+	db, err := openDatabase(kbdxpath, cred)
+	if err != nil {
+		return nil, err
+	}
+
 	root := db.Content.Root
 	result := []KPEntry{}
-	scan(&root.Groups, []string{}, args, &result) // start recursive scan
-	alf := AlfredJSON{}                           // search
+	scan(&root.Groups, []string{}, nil, &result) // start recursive scan
 
-	entry := getEntry(result, path)
+	entry := getEntry(result, entryPath)
 	if entry == nil {
-		panic("entry is nil")
+		return nil, errors.Errorf("entry not found: %s", entryPath)
 	}
+
+	alf := &AlfredJSON{}
 	alf.Items = append(alf.Items, AlfredJSONItem{
 		Uid:      "0",
 		Title:    "← Back",
@@ -195,8 +217,7 @@ func getMain(cmd *cobra.Command, args []string) {
 		})
 	}
 
-	s, _ := json.Marshal(alf)
-	fmt.Println(string(s))
+	return alf, nil
 }
 
 // readEntries scans all entries in []KPEntry for filtered result
