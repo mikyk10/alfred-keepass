@@ -54,9 +54,28 @@ func searchMain(cmd *cobra.Command, args []string) {
 		os.Getenv("keepassxc_keyfile_path"),
 		strings.TrimSpace(os.Getenv("keepassxc_master_password")),
 		args,
+		parseCacheSeconds(os.Getenv("keepassxc_cache_seconds")),
 	)
 	s, _ := json.Marshal(alf)
 	fmt.Println(string(s))
+}
+
+// parseCacheSeconds reads the result-cache window from its raw env value and
+// clamps it to Alfred's allowed range. An empty or invalid value yields the
+// default window.
+func parseCacheSeconds(raw string) int {
+	const def, min, max = 5, 5, 86400
+	n, err := strconv.Atoi(raw)
+	if err != nil {
+		return def
+	}
+	if n < min {
+		return min
+	}
+	if n > max {
+		return max
+	}
+	return n
 }
 
 // errorJSON renders err as a single, non-actionable Alfred item so the user
@@ -73,8 +92,10 @@ func errorJSON(err error) *AlfredJSON {
 }
 
 // runSearch resolves credentials, runs the search and converts any error into
-// an Alfred error item.
-func runSearch(kbdxpath, keyfilepath, passwd string, query []string) *AlfredJSON {
+// an Alfred error item. On success the result carries a cache window so Alfred
+// can avoid re-decrypting the database for repeated identical queries; errors
+// are never cached.
+func runSearch(kbdxpath, keyfilepath, passwd string, query []string, cacheSeconds int) *AlfredJSON {
 	cred, err := buildCredentials(passwd, keyfilepath)
 	if err != nil {
 		return errorJSON(err)
@@ -84,6 +105,7 @@ func runSearch(kbdxpath, keyfilepath, passwd string, query []string) *AlfredJSON
 	if err != nil {
 		return errorJSON(err)
 	}
+	alf.Cache = &AlfredCache{Seconds: cacheSeconds, LooseReload: true}
 	return alf
 }
 

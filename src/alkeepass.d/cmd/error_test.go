@@ -22,20 +22,25 @@ func TestRunSearchAndGetReportErrors(t *testing.T) {
 	dbPath := filepath.Join("testdata", "test.kdbx")
 
 	t.Run("missing credentials", func(t *testing.T) {
-		alf := runSearch(dbPath, "", "", []string{"Entry1"})
+		alf := runSearch(dbPath, "", "", []string{"Entry1"}, 5)
 		assert.Len(t, alf.Items, 1)
 		assert.True(t, strings.HasPrefix(alf.Items[0].Title, "⚠️"))
+		assert.Nil(t, alf.Cache) // errors are not cached
 	})
 
 	t.Run("missing database", func(t *testing.T) {
-		alf := runSearch(filepath.Join("testdata", "nope.kdbx"), "", "Abc12345", []string{"Entry1"})
+		alf := runSearch(filepath.Join("testdata", "nope.kdbx"), "", "Abc12345", []string{"Entry1"}, 5)
 		assert.Len(t, alf.Items, 1)
 		assert.True(t, strings.HasPrefix(alf.Items[0].Title, "⚠️"))
+		assert.Nil(t, alf.Cache) // errors are not cached
 	})
 
 	t.Run("search happy path", func(t *testing.T) {
-		alf := runSearch(dbPath, "", "Abc12345", []string{"Entry1"})
+		alf := runSearch(dbPath, "", "Abc12345", []string{"Entry1"}, 5)
 		assert.Equal(t, "Entry1", alf.Items[0].Title)
+		assert.NotNil(t, alf.Cache)
+		assert.Equal(t, 5, alf.Cache.Seconds)
+		assert.True(t, alf.Cache.LooseReload)
 	})
 
 	t.Run("get with no argument", func(t *testing.T) {
