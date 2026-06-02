@@ -8,10 +8,28 @@ import (
 	"strings"
 	"time"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/tobischo/gokeepasslib/v3"
 	"golang.org/x/text/unicode/norm"
 )
+
+// buildCredentials assembles KeePass credentials from a master password
+// and/or a key file path. It propagates the error returned by the key file
+// based constructors (e.g. a missing or unreadable key file) instead of
+// discarding it, and returns an error when neither is configured.
+func buildCredentials(passwd, keyfilepath string) (*gokeepasslib.DBCredentials, error) {
+	switch {
+	case passwd != "" && keyfilepath != "":
+		return gokeepasslib.NewPasswordAndKeyCredentials(passwd, keyfilepath)
+	case passwd != "":
+		return gokeepasslib.NewPasswordCredentials(passwd), nil
+	case keyfilepath != "":
+		return gokeepasslib.NewKeyCredentials(keyfilepath)
+	default:
+		return nil, errors.New("either `keepassxc_master_password` or `keepassxc_keyfile_path` must be configured")
+	}
+}
 
 type KPEntry struct {
 	Path  []string
@@ -35,24 +53,9 @@ func searchMain(cmd *cobra.Command, args []string) {
 	keyfilepath := os.Getenv("keepassxc_keyfile_path")
 	passwd := strings.TrimSpace(os.Getenv("keepassxc_master_password"))
 
-	var cred *gokeepasslib.DBCredentials
-
-	if passwd != "" {
-		if keyfilepath != "" {
-			// password and keyfile
-			cred, _ = gokeepasslib.NewPasswordAndKeyCredentials(passwd, keyfilepath)
-		} else {
-			// password only
-			cred = gokeepasslib.NewPasswordCredentials(passwd)
-		}
-	} else {
-		if keyfilepath != "" {
-			// keyfile only
-			cred, _ = gokeepasslib.NewKeyCredentials(keyfilepath)
-		} else {
-			// all blank
-			panic("Your must either configure `keepassxc_master_password` or `keepassxc_keyfile_path`")
-		}
+	cred, err := buildCredentials(passwd, keyfilepath)
+	if err != nil {
+		panic(err)
 	}
 
 	alf := search(kbdxpath, cred, args)
@@ -83,24 +86,9 @@ func getMain(cmd *cobra.Command, args []string) {
 	keyfilepath := os.Getenv("keepassxc_keyfile_path")
 	passwd := strings.TrimSpace(os.Getenv("keepassxc_master_password"))
 
-	var cred *gokeepasslib.DBCredentials
-
-	if passwd != "" {
-		if keyfilepath != "" {
-			// password and keyfile
-			cred, _ = gokeepasslib.NewPasswordAndKeyCredentials(passwd, keyfilepath)
-		} else {
-			// password only
-			cred = gokeepasslib.NewPasswordCredentials(passwd)
-		}
-	} else {
-		if keyfilepath != "" {
-			// keyfile only
-			cred, _ = gokeepasslib.NewKeyCredentials(keyfilepath)
-		} else {
-			// all blank
-			panic("Your must either configure `keepassxc_master_password` or `keepassxc_keyfile_path`")
-		}
+	cred, err := buildCredentials(passwd, keyfilepath)
+	if err != nil {
+		panic(err)
 	}
 
 	file, _ := os.Open(kbdxpath)
