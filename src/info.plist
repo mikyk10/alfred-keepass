@@ -810,7 +810,7 @@ echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b -a $ATTR "$keepa
 				<key>runningsubtext</key>
 				<string>Loading results...</string>
 				<key>script</key>
-				<string>./alkeepass search {query}</string>
+				<string>./alkeepass search "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1570,7 +1570,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 		<string>Alfred KeePass Workflow</string>
 	</dict>
 	<key>version</key>
-	<string>0.1.2-15-g69800cc</string>
+	<string>0.1.2-18-gcda8fb1</string>
 	<key>webaddress</key>
 	<string>https://github.com/mikyk10/alfred-keepass</string>
 </dict>

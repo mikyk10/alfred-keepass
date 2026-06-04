@@ -53,11 +53,20 @@ func searchMain(cmd *cobra.Command, args []string) {
 		os.Getenv("keepassxc_db_path"),
 		os.Getenv("keepassxc_keyfile_path"),
 		strings.TrimSpace(os.Getenv("keepassxc_master_password")),
-		args,
+		queryTerms(args),
 		parseCacheSeconds(os.Getenv("keepassxc_cache_seconds")),
 	)
 	s, _ := json.Marshal(alf)
 	fmt.Println(string(s))
+}
+
+// queryTerms splits the search arguments into individual terms on whitespace.
+// Alfred passes the typed query as a single quoted argument (so that a "#tag"
+// term is not eaten by the shell as a comment), so the whitespace splitting
+// that the shell used to do is done here instead. It also tolerates already
+// word-split argv, making the binary callable both ways.
+func queryTerms(args []string) []string {
+	return strings.Fields(strings.Join(args, " "))
 }
 
 // parseCacheSeconds reads the result-cache window from its raw env value and
@@ -290,7 +299,9 @@ func getEntry(kpe []KPEntry, path string) *KPEntry {
 
 // readEntries scans all entries in []KPEntry for filtered result
 func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
-	alf := AlfredJSON{}
+	// Initialize Items to a non-nil slice so a query that matches nothing (which
+	// is common for tag filters) marshals to "items": [] rather than null.
+	alf := AlfredJSON{Items: []AlfredJSONItem{}}
 	pathTerms, tagTerms := splitQuery(query)
 	for i, entry := range kpe {
 		uuid, _ := entry.Entry.UUID.MarshalText()

@@ -62,6 +62,26 @@ func TestSplitQuery(t *testing.T) {
 	})
 }
 
+func TestQueryTerms(t *testing.T) {
+	t.Run("single quoted argument is split on whitespace", func(t *testing.T) {
+		// Alfred passes the whole query as one argument (e.g. `search "gmail #work"`).
+		assert.Equal(t, []string{"gmail", "#work"}, queryTerms([]string{"gmail #work"}))
+	})
+
+	t.Run("already word-split argv is preserved", func(t *testing.T) {
+		assert.Equal(t, []string{"gmail", "#work"}, queryTerms([]string{"gmail", "#work"}))
+	})
+
+	t.Run("surrounding and repeated whitespace is collapsed", func(t *testing.T) {
+		assert.Equal(t, []string{"a", "b"}, queryTerms([]string{"  a   b  "}))
+	})
+
+	t.Run("empty query yields no terms", func(t *testing.T) {
+		assert.Empty(t, queryTerms([]string{""}))
+		assert.Empty(t, queryTerms(nil))
+	})
+}
+
 func TestMatchesTags(t *testing.T) {
 	// Tag filtering reuses matchesQuery against the entry's raw Tags string,
 	// so it is partial and case-insensitive just like path matching.
