@@ -291,11 +291,13 @@ func getEntry(kpe []KPEntry, path string) *KPEntry {
 // readEntries scans all entries in []KPEntry for filtered result
 func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 	alf := AlfredJSON{}
+	pathTerms, tagTerms := splitQuery(query)
 	for i, entry := range kpe {
 		uuid, _ := entry.Entry.UUID.MarshalText()
 		path := strings.Join(kpe[i].Path[1:], "/") // remove the top-level (root) group from path
 
-		if !matchesQuery(path, query) {
+		// Path terms filter on the entry path; "#" terms filter on its tags.
+		if !matchesQuery(path, pathTerms) || !matchesQuery(entry.Entry.Tags, tagTerms) {
 			continue
 		}
 
@@ -340,6 +342,23 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 	}
 
 	return &alf
+}
+
+// splitQuery separates raw query terms into path terms and tag terms. A term
+// prefixed with "#" filters on the entry's tags (the "#" is stripped before
+// matching); a bare "#" carries no term and is ignored. Every other term
+// filters on the entry path.
+func splitQuery(query []string) (pathTerms, tagTerms []string) {
+	for _, q := range query {
+		if strings.HasPrefix(q, "#") {
+			if t := strings.TrimPrefix(q, "#"); t != "" {
+				tagTerms = append(tagTerms, t)
+			}
+			continue
+		}
+		pathTerms = append(pathTerms, q)
+	}
+	return pathTerms, tagTerms
 }
 
 // matchesQuery reports whether path contains every query term. Comparison is

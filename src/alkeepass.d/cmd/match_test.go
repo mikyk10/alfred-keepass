@@ -35,3 +35,49 @@ func TestMatchesQuery(t *testing.T) {
 		assert.True(t, matchesQuery("anything", nil))
 	})
 }
+
+func TestSplitQuery(t *testing.T) {
+	t.Run("plain terms go to path terms", func(t *testing.T) {
+		path, tag := splitQuery([]string{"gmail", "work"})
+		assert.Equal(t, []string{"gmail", "work"}, path)
+		assert.Empty(t, tag)
+	})
+
+	t.Run("hashed terms go to tag terms with the # stripped", func(t *testing.T) {
+		path, tag := splitQuery([]string{"#work"})
+		assert.Empty(t, path)
+		assert.Equal(t, []string{"work"}, tag)
+	})
+
+	t.Run("path and tag terms are split apart", func(t *testing.T) {
+		path, tag := splitQuery([]string{"gmail", "#work", "#mail"})
+		assert.Equal(t, []string{"gmail"}, path)
+		assert.Equal(t, []string{"work", "mail"}, tag)
+	})
+
+	t.Run("a bare # carries no term and is ignored", func(t *testing.T) {
+		path, tag := splitQuery([]string{"gmail", "#"})
+		assert.Equal(t, []string{"gmail"}, path)
+		assert.Empty(t, tag)
+	})
+}
+
+func TestMatchesTags(t *testing.T) {
+	// Tag filtering reuses matchesQuery against the entry's raw Tags string,
+	// so it is partial and case-insensitive just like path matching.
+	const tags = "Work;Mail"
+
+	t.Run("partial, case-insensitive tag match", func(t *testing.T) {
+		assert.True(t, matchesQuery(tags, []string{"work"}))
+		assert.True(t, matchesQuery(tags, []string{"wor"}))
+		assert.True(t, matchesQuery(tags, []string{"MAIL"}))
+	})
+
+	t.Run("non-matching tag is rejected", func(t *testing.T) {
+		assert.False(t, matchesQuery(tags, []string{"personal"}))
+	})
+
+	t.Run("an entry without tags never matches a tag term", func(t *testing.T) {
+		assert.False(t, matchesQuery("", []string{"work"}))
+	})
+}

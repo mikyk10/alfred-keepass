@@ -35,6 +35,8 @@ ln -s /Applications/KeePassXC.app//Contents/MacOS/keepassxc-cli /usr/local/bin
 3. Select the desired password from the list of results.
 4. The password will be automatically copied to your clipboard.
 
+You can filter by tag by prefixing a keyword with `#`, e.g. `kp gmail #work`. Tag terms and normal keywords can be combined, and tag matching is partial and case-insensitive.
+
 Alternatively you can also copy `username` and `URL` by holding CMD or ALT before pressing Enter.
 
 ## Limitation
