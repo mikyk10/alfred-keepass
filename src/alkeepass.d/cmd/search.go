@@ -27,7 +27,7 @@ func buildCredentials(passwd, keyfilepath string) (*gokeepasslib.DBCredentials, 
 	case keyfilepath != "":
 		return gokeepasslib.NewKeyCredentials(keyfilepath)
 	default:
-		return nil, errors.New("either `keepassxc_master_password` or `keepassxc_keyfile_path` must be configured")
+		return nil, errors.New("no master password in the keychain: run `kp:setpass` in Alfred (or configure a key file)")
 	}
 }
 
@@ -49,13 +49,18 @@ var getCmd = &cobra.Command{
 }
 
 func searchMain(cmd *cobra.Command, args []string) {
-	alf := runSearch(
-		os.Getenv("keepassxc_db_path"),
-		os.Getenv("keepassxc_keyfile_path"),
-		strings.TrimSpace(os.Getenv("keepassxc_master_password")),
-		queryTerms(args),
-		parseCacheSeconds(os.Getenv("keepassxc_cache_seconds")),
-	)
+	var alf *AlfredJSON
+	if passwd, err := readKeychain(); err != nil {
+		alf = errorJSON(err)
+	} else {
+		alf = runSearch(
+			os.Getenv("keepassxc_db_path"),
+			os.Getenv("keepassxc_keyfile_path"),
+			passwd,
+			queryTerms(args),
+			parseCacheSeconds(os.Getenv("keepassxc_cache_seconds")),
+		)
+	}
 	s, _ := json.Marshal(alf)
 	fmt.Println(string(s))
 }
@@ -147,12 +152,17 @@ func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) (
 }
 
 func getMain(cmd *cobra.Command, args []string) {
-	alf := runGet(
-		os.Getenv("keepassxc_db_path"),
-		os.Getenv("keepassxc_keyfile_path"),
-		strings.TrimSpace(os.Getenv("keepassxc_master_password")),
-		args,
-	)
+	var alf *AlfredJSON
+	if passwd, err := readKeychain(); err != nil {
+		alf = errorJSON(err)
+	} else {
+		alf = runGet(
+			os.Getenv("keepassxc_db_path"),
+			os.Getenv("keepassxc_keyfile_path"),
+			passwd,
+			args,
+		)
+	}
 	s, _ := json.Marshal(alf)
 	fmt.Println(string(s))
 }

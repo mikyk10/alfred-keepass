@@ -283,11 +283,37 @@
 				<false/>
 			</dict>
 		</array>
+		<key>5A0C2E61-7B3D-4F59-9E4A-2C8D1B6F3A70</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>6B1D3F72-8C4E-4A6A-AF5B-3D9E2C7A4B81</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>69004857-90FF-41E5-B695-C151659B1AA1</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>3245CC2C-FC62-43E6-B01A-ED1B0EA3934E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>6B1D3F72-8C4E-4A6A-AF5B-3D9E2C7A4B81</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7C2E4083-9D5F-4B7B-B06C-4EAF3D8B5C92</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -439,7 +465,7 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$q"</string>
+./alkeepass password | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -622,8 +648,8 @@ echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b --totp "$keepass
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-otp=$(echo "$keepassxc_master_password" | $keepassxc_cli_path show --totp "$keepassxc_db_path" "$q")
-passwd=$(echo "$keepassxc_master_password" | $keepassxc_cli_path show -s -a Password "$keepassxc_db_path" "$q")
+otp=$(./alkeepass password | $keepassxc_cli_path show --totp "$keepassxc_db_path" "$q")
+passwd=$(./alkeepass password | $keepassxc_cli_path show -s -a Password "$keepassxc_db_path" "$q")
 echo -n "${otp}${passwd}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -667,7 +693,7 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-echo "$keepassxc_master_password" | $keepassxc_cli_path attachment-export "$keepassxc_db_path" "$q" "$filename" "$HOME/Downloads/$filename"</string>
+./alkeepass password | $keepassxc_cli_path attachment-export "$keepassxc_db_path" "$q" "$filename" "$HOME/Downloads/$filename"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -767,7 +793,7 @@ echo "$keepassxc_master_password" | $keepassxc_cli_path attachment-export "$keep
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" "$q" 0</string>
+./alkeepass password | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" "$q" 0</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -993,7 +1019,7 @@ echo "$keepassxc_master_password" | $keepassxc_cli_path clip -b -a $ATTR "$keepa
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-echo "$keepassxc_master_password" | $keepassxc_cli_path show -a $ATTR "$keepassxc_db_path" "$q"</string>
+./alkeepass password | $keepassxc_cli_path show -a $ATTR "$keepassxc_db_path" "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1230,6 +1256,78 @@ fi</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>{var:alf_keyword}:setpass</string>
+				<key>subtext</key>
+				<string>Store the master password in the macOS keychain</string>
+				<key>text</key>
+				<string>🔑 Set master password</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>5A0C2E61-7B3D-4F59-9E4A-2C8D1B6F3A70</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>pw=$(osascript \
+  -e 'display dialog "Enter the KeePass master password to store in the workflow keychain. The first time, macOS will also ask you to choose a password for that keychain." default answer "" with hidden answer with title "Alfred KeePass Workflow" with icon caution' \
+  -e 'text returned of result' 2&gt;/dev/null) || exit 0
+if err=$(printf '%s\n' "$pw" | ./alkeepass set-password 2&gt;&amp;1); then
+  echo -n "Master password is stored in the keychain."
+else
+  echo -n "Failed to store the master password: $err"
+fi</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>6B1D3F72-8C4E-4A6A-AF5B-3D9E2C7A4B81</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>{var:wf_name}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>7C2E4083-9D5F-4B7B-B06C-4EAF3D8B5C92</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string># Alfred KeePass Workflow
@@ -1247,7 +1345,8 @@ This Alfred workflow allows you to quickly search and copy passwords from your K
 
 or if you prefer building the app on your own. See Contribution for more detail.
 
-3. Fill out the configuration with your KeePassXC database file path, master password, and key file(not yet supported).
+3. Fill out the configuration with your KeePassXC database file path (and key file if you use one).
+4. Type `kp:setpass` in Alfred and enter your master password. It is stored in a dedicated keychain that locks itself after 5 minutes of inactivity, not in the workflow configuration.
 
 ## Usage
 1. Trigger Alfred by pressing the Alfred hotkey.
@@ -1382,6 +1481,15 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<key>ypos</key>
 			<real>700</real>
 		</dict>
+		<key>5A0C2E61-7B3D-4F59-9E4A-2C8D1B6F3A70</key>
+		<dict>
+			<key>note</key>
+			<string>register the master password in the keychain</string>
+			<key>xpos</key>
+			<real>165</real>
+			<key>ypos</key>
+			<real>1660</real>
+		</dict>
 		<key>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</key>
 		<dict>
 			<key>xpos</key>
@@ -1395,6 +1503,20 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<real>595</real>
 			<key>ypos</key>
 			<real>850</real>
+		</dict>
+		<key>6B1D3F72-8C4E-4A6A-AF5B-3D9E2C7A4B81</key>
+		<dict>
+			<key>xpos</key>
+			<real>400</real>
+			<key>ypos</key>
+			<real>1660</real>
+		</dict>
+		<key>7C2E4083-9D5F-4B7B-B06C-4EAF3D8B5C92</key>
+		<dict>
+			<key>xpos</key>
+			<real>600</real>
+			<key>ypos</key>
+			<real>1660</real>
 		</dict>
 		<key>86DD8120-27B2-45FB-8CB9-81041162B45B</key>
 		<dict>
@@ -1522,27 +1644,6 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<dict>
 				<key>default</key>
 				<string></string>
-				<key>placeholder</key>
-				<string>YOUR MASTER PASSWORD</string>
-				<key>required</key>
-				<true/>
-				<key>trim</key>
-				<true/>
-			</dict>
-			<key>description</key>
-			<string>Master password to unlock the database</string>
-			<key>label</key>
-			<string>Master Password</string>
-			<key>type</key>
-			<string>textfield</string>
-			<key>variable</key>
-			<string>keepassxc_master_password</string>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>default</key>
-				<string></string>
 				<key>filtermode</key>
 				<integer>2</integer>
 				<key>placeholder</key>
@@ -1570,7 +1671,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 		<string>Alfred KeePass Workflow</string>
 	</dict>
 	<key>version</key>
-	<string>0.1.2-18-gcda8fb1</string>
+	<string>0.1.2-19-g01722cf</string>
 	<key>webaddress</key>
 	<string>https://github.com/mikyk10/alfred-keepass</string>
 </dict>
