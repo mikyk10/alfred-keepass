@@ -41,6 +41,8 @@ You can filter by tag by prefixing a keyword with `#`, e.g. `kp gmail #work`. Ta
 
 Alternatively you can also copy `username` and `URL` by holding CMD or ALT before pressing Enter.
 
+Hold CTRL+SHIFT before pressing Enter to copy the TOTP token of entries that have one.
+
 ### Upgrading from an earlier version
 
 The master password is no longer read from the workflow configuration. After upgrading, run `kp:setpass` once to store it in the keychain; the old plain-text value can be discarded.

@@ -322,6 +322,29 @@
 				<false/>
 			</dict>
 		</array>
+		<key>8D3F5194-AE60-4C8C-B17D-5FB04E9C6DA3</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>E745386E-68B1-43FB-ACE7-912986530B60</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>B64F5820-7244-48F3-B6F5-CC1E84773482</key>
 		<array>
 			<dict>
@@ -420,6 +443,16 @@
 				<integer>655360</integer>
 				<key>modifiersubtext</key>
 				<string>🖥️ Open URL</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>8D3F5194-AE60-4C8C-B17D-5FB04E9C6DA3</string>
+				<key>modifiers</key>
+				<integer>393216</integer>
+				<key>modifiersubtext</key>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -1328,6 +1361,26 @@ fi</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>ITEM_PATH</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>8D3F5194-AE60-4C8C-B17D-5FB04E9C6DA3</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string># Alfred KeePass Workflow
@@ -1524,6 +1577,15 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<real>1200</real>
 			<key>ypos</key>
 			<real>1535</real>
+		</dict>
+		<key>8D3F5194-AE60-4C8C-B17D-5FB04E9C6DA3</key>
+		<dict>
+			<key>note</key>
+			<string>ctrl+shift: copy TOTP</string>
+			<key>xpos</key>
+			<real>595</real>
+			<key>ypos</key>
+			<real>900</real>
 		</dict>
 		<key>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</key>
 		<dict>

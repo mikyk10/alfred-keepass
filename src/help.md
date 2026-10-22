@@ -9,3 +9,4 @@ In search result, hold:
   ⇧⌥ (Shift+Option) to open URL in default browser
   ⌘⌥ (Command+Option) to copy Notes
   ⌃  (Control) to copy other attributes, attachments...
+  ⌃⇧ (Control+Shift) to copy TOTP

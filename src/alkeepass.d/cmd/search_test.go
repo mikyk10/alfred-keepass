@@ -41,3 +41,27 @@ func TestKBDX(t *testing.T) {
 	assert.False(t, alf.Items[0].Mods.CmdAlt.Valid) // no Notes
 	assert.NotEmpty(t, alf.Items[0].Uid)
 }
+
+func TestCtrlShiftTOTPMod(t *testing.T) {
+	withOTP := gokeepasslib.NewEntry()
+	withOTP.Values = append(withOTP.Values,
+		gokeepasslib.ValueData{Key: "Title", Value: gokeepasslib.V{Content: "WithOTP"}},
+		gokeepasslib.ValueData{Key: "otp", Value: gokeepasslib.V{Content: "otpauth://totp/x?secret=JBSWY3DPEHPK3PXP"}},
+	)
+	withoutOTP := gokeepasslib.NewEntry()
+	withoutOTP.Values = append(withoutOTP.Values,
+		gokeepasslib.ValueData{Key: "Title", Value: gokeepasslib.V{Content: "NoOTP"}},
+	)
+
+	alf := readEntries([]KPEntry{
+		{Path: []string{"Root", "WithOTP"}, Entry: withOTP},
+		{Path: []string{"Root", "NoOTP"}, Entry: withoutOTP},
+	}, nil)
+
+	assert.Len(t, alf.Items, 2)
+	assert.True(t, alf.Items[0].Mods.CtrlShift.Valid) // TOTP present
+	assert.Equal(t, "WithOTP", alf.Items[0].Mods.CtrlShift.Arg)
+	assert.Nil(t, alf.Items[0].Mods.CtrlShift.Icon)
+	assert.False(t, alf.Items[1].Mods.CtrlShift.Valid) // no TOTP
+	assert.Equal(t, "NoOTP", alf.Items[1].Mods.CtrlShift.Arg)
+}

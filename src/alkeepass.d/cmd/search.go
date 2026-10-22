@@ -328,11 +328,12 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 			Subtitle: path,
 
 			Mods: AlfredMods{
-				Cmd:      AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
-				Alt:      AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
-				AltShift: AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
-				CmdAlt:   AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
-				Ctrl:     AlfredModItem{Arg: path, Valid: true},
+				Cmd:       AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				Alt:       AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				AltShift:  AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				CmdAlt:    AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				Ctrl:      AlfredModItem{Arg: path, Valid: true},
+				CtrlShift: AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
 			},
 
 			Arg: path,
@@ -357,6 +358,11 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 		if entry.Entry.GetContent("Notes") != "" {
 			item.Mods.CmdAlt.Icon = nil
 			item.Mods.CmdAlt.Valid = true
+		}
+		if entry.Entry.GetContent("otp") != "" {
+			item.Mods.CtrlShift.Icon = nil
+			item.Mods.CtrlShift.Valid = true
+			item.Mods.CtrlShift.Subtitle = "Copy TOTP token"
 		}
 
 		alf.Items = append(alf.Items, item)
