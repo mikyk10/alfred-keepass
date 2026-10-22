@@ -75,6 +75,10 @@ If you add a new feature, please make sure that any code comes with a working te
 ### Prerequisites
 Knowledge of Go programming language is required to contribute to this Alfred workflow. Please make sure to have Go installed on your development machine.
 
+### Building
+* `make` builds `bin/KeePass.alfredworkflow` and opens it to import into Alfred.
+* `make update` copies the freshly built binary into your installed workflow and copies its `info.plist` back into `src/`, so edits made in Alfred's workflow editor can be committed. The installed workflow is found by bundle id in your Alfred preferences; set `ALFRED_WORKFLOW_DIR=/path/to/user.workflow.XXXX` to point at it explicitly.
+
 ## Disclaimer
 This Alfred workflow is provided "as is" with no express or implied warranties. The authors and copyright holders are not responsible for any liability arising from the use of this software. By using it, you agree to take full responsibility for any consequences that may arise.
 
