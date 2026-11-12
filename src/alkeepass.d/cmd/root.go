@@ -11,4 +11,5 @@ func init() {
 	RootCmd.AddCommand(getCmd)
 	RootCmd.AddCommand(passwordCmd)
 	RootCmd.AddCommand(setPasswordCmd)
+	RootCmd.AddCommand(unlockCmd)
 }

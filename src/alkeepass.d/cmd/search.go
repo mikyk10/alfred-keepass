@@ -50,7 +50,9 @@ var getCmd = &cobra.Command{
 
 func searchMain(cmd *cobra.Command, args []string) {
 	var alf *AlfredJSON
-	if passwd, err := readKeychain(); err != nil {
+	if locked, err := keychainLocked(); err == nil && locked {
+		alf = lockedJSON(strings.Join(queryTerms(args), " "), unlockAction)
+	} else if passwd, err := readKeychain(); err != nil {
 		alf = errorJSON(err)
 	} else {
 		alf = runSearch(
@@ -105,6 +107,28 @@ func errorJSON(err error) *AlfredJSON {
 	return alf
 }
 
+// unlockAction is the kp_action value that routes an item's Enter to the
+// workflow's unlock step instead of the copy actions.
+const unlockAction = "unlock"
+
+// lockedJSON renders the item shown instead of results while the keychain is
+// locked. Its Enter carries arg (and kp_action, when set) to the next node;
+// the modifier actions are disabled so they cannot copy anything.
+func lockedJSON(arg, action string) *AlfredJSON {
+	item := AlfredJSONItem{
+		Uid:      "locked",
+		Title:    "🔒 The keychain is locked",
+		Subtitle: "Press Enter to unlock it, then search again",
+		Arg:      arg,
+	}
+	if action != "" {
+		item.Variables = map[string]string{"kp_action": action}
+	} else {
+		item.Subtitle = "Press Enter to go back to the search and unlock it there"
+	}
+	return &AlfredJSON{Items: []AlfredJSONItem{item}}
+}
+
 // runSearch resolves credentials, runs the search and converts any error into
 // an Alfred error item. On success the result carries a cache window so Alfred
 // can avoid re-decrypting the database for repeated identical queries; errors
@@ -153,7 +177,9 @@ func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) (
 
 func getMain(cmd *cobra.Command, args []string) {
 	var alf *AlfredJSON
-	if passwd, err := readKeychain(); err != nil {
+	if locked, err := keychainLocked(); err == nil && locked {
+		alf = lockedJSON("back", "")
+	} else if passwd, err := readKeychain(); err != nil {
 		alf = errorJSON(err)
 	} else {
 		alf = runGet(

@@ -49,7 +49,7 @@ The master password is no longer read from the workflow configuration. After upg
 
 ### About the keychain
 
-The dedicated keychain locks itself after 5 minutes of inactivity and when your Mac sleeps. While it is locked nothing can read the master password; the next search shows the macOS unlock dialog. To change the timeout (in seconds):
+The dedicated keychain locks itself after 5 minutes of inactivity and when your Mac sleeps. While it is locked nothing can read the master password; the next search shows a "🔒 The keychain is locked" item instead of results. Press Enter on it to unlock the keychain, and Alfred reopens with the same search, so the keychain is already unlocked by the time you pick an entry. To change the timeout (in seconds):
 
 ```
 security set-keychain-settings -l -u -t 600 ~/Library/Keychains/alfred-keepass.keychain-db

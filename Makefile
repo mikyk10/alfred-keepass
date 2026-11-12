@@ -17,7 +17,7 @@ open: bin/$(name).alfredworkflow
 build:
 	-rm bin/*.alfredworkflow
 	-pushd src; v=$$(git describe --tags); $(PLB) -c "Set:version $${v#v}" info.plist; popd
-	-pushd src/alkeepass.d; GOOS=darwin GOARCH=amd64 go build -o ../ alkeepass.go; popd
+	-pushd src/alkeepass.d; CGO_ENABLED=1 GOOS=darwin GOARCH=amd64 CC="clang -arch x86_64" go build -o ../ alkeepass.go; popd
 	-pushd src; zip -r ../bin/$(name).alfredworkflow alkeepass icon*.png *.md info.plist; popd
 
 

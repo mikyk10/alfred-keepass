@@ -46,6 +46,41 @@ var setPasswordCmd = &cobra.Command{
 	Run:   setPasswordMain,
 }
 
+var unlockCmd = &cobra.Command{
+	Use:   "unlock",
+	Short: "Ask the user to unlock the keychain holding the master password",
+	Run:   unlockMain,
+}
+
+// keychainLocked reports whether the dedicated keychain exists and is locked,
+// without prompting. Script Filters check it before reading the password:
+// an unlock dialog shown while Alfred's window is open closes the window and
+// loses the results. It is a variable so tests can replace it.
+var keychainLocked = func() (bool, error) {
+	kc, err := keychainPath()
+	if err != nil {
+		return false, err
+	}
+	if _, err := os.Stat(kc); os.IsNotExist(err) {
+		return false, nil
+	}
+	return keychainFileLocked(kc)
+}
+
+// unlockKeychain asks the user to unlock the dedicated keychain if it is
+// locked, and returns once it has been answered.
+func unlockKeychain() error {
+	locked, err := keychainLocked()
+	if err != nil || !locked {
+		return err
+	}
+	kc, err := keychainPath()
+	if err != nil {
+		return err
+	}
+	return unlockKeychainFile(kc)
+}
+
 // keychainPath returns the location of the dedicated keychain.
 func keychainPath() (string, error) {
 	home, err := os.UserHomeDir()
@@ -233,7 +268,20 @@ func runSecurity(args ...string) error {
 	return nil
 }
 
+func unlockMain(cmd *cobra.Command, args []string) {
+	if err := unlockKeychain(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+}
+
 func passwordMain(cmd *cobra.Command, args []string) {
+	// Unlock first so that the dialog has been answered before the
+	// password is read, rather than leaving security(1) to prompt mid-read.
+	if err := unlockKeychain(); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 	passwd, err := readKeychain()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
