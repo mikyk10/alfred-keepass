@@ -322,6 +322,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>76CC1B69-C61A-4B23-A9D2-D246F3D1403B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F5E386A5-97B2-4C21-BB64-D9F8437B0DFE</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>8D3F5194-AE60-4C8C-B17D-5FB04E9C6DA3</key>
 		<array>
 			<dict>
@@ -350,6 +363,31 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>03C52792-311C-4DBC-BC07-60BBD02AD330</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>DAB0B2A3-CCE9-42F1-992D-6DF369B6C9E3</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>76CC1B69-C61A-4B23-A9D2-D246F3D1403B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>E9B18544-2629-4BDE-8938-E7CE87E73738</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>15261710-9C44-4CD7-A5ED-592B9FD66C98</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -398,7 +436,7 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>15261710-9C44-4CD7-A5ED-592B9FD66C98</string>
+				<string>DAB0B2A3-CCE9-42F1-992D-6DF369B6C9E3</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -498,7 +536,8 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass password | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$q"</string>
+pw=$(./alkeepass password) || exit 1
+printf '%s\n' "$pw" | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -681,8 +720,9 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-otp=$(./alkeepass password | $keepassxc_cli_path show --totp "$keepassxc_db_path" "$q")
-passwd=$(./alkeepass password | $keepassxc_cli_path show -s -a Password "$keepassxc_db_path" "$q")
+pw=$(./alkeepass password) || exit 1
+otp=$(printf '%s\n' "$pw" | $keepassxc_cli_path show --totp "$keepassxc_db_path" "$q")
+passwd=$(printf '%s\n' "$pw" | $keepassxc_cli_path show -s -a Password "$keepassxc_db_path" "$q")
 echo -n "${otp}${passwd}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -726,7 +766,8 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass password | $keepassxc_cli_path attachment-export "$keepassxc_db_path" "$q" "$filename" "$HOME/Downloads/$filename"</string>
+pw=$(./alkeepass password) || exit 1
+printf '%s\n' "$pw" | $keepassxc_cli_path attachment-export "$keepassxc_db_path" "$q" "$filename" "$HOME/Downloads/$filename"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -826,7 +867,8 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass password | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" "$q" 0</string>
+pw=$(./alkeepass password) || exit 1
+printf '%s\n' "$pw" | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" "$q" 0</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1052,7 +1094,8 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass password | $keepassxc_cli_path show -a $ATTR "$keepassxc_db_path" "$q"</string>
+pw=$(./alkeepass password) || exit 1
+printf '%s\n' "$pw" | $keepassxc_cli_path show -a $ATTR "$keepassxc_db_path" "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1381,6 +1424,77 @@ fi</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:kp_action}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>unlock</string>
+						<key>outputlabel</key>
+						<string>unlock</string>
+						<key>uid</key>
+						<string>E9B18544-2629-4BDE-8938-E7CE87E73738</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>copy password</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>DAB0B2A3-CCE9-42F1-992D-6DF369B6C9E3</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./alkeepass unlock &gt;/dev/null 2&gt;&amp;1 || exit 0
+echo -n "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>76CC1B69-C61A-4B23-A9D2-D246F3D1403B</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{var:alf_keyword} {query}</string>
+				<key>leftcursor</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.showalfred</string>
+			<key>uid</key>
+			<string>F5E386A5-97B2-4C21-BB64-D9F8437B0DFE</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string># Alfred KeePass Workflow
@@ -1564,6 +1678,13 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<key>ypos</key>
 			<real>1660</real>
 		</dict>
+		<key>76CC1B69-C61A-4B23-A9D2-D246F3D1403B</key>
+		<dict>
+			<key>xpos</key>
+			<real>635</real>
+			<key>ypos</key>
+			<real>530</real>
+		</dict>
 		<key>7C2E4083-9D5F-4B7B-B06C-4EAF3D8B5C92</key>
 		<dict>
 			<key>xpos</key>
@@ -1636,6 +1757,15 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<key>ypos</key>
 			<real>1400</real>
 		</dict>
+		<key>DAB0B2A3-CCE9-42F1-992D-6DF369B6C9E3</key>
+		<dict>
+			<key>note</key>
+			<string>locked keychain: unlock, then search again</string>
+			<key>xpos</key>
+			<real>535</real>
+			<key>ypos</key>
+			<real>650</real>
+		</dict>
 		<key>E4C62605-BA65-4DD5-B1D9-C0F1D745A36F</key>
 		<dict>
 			<key>xpos</key>
@@ -1660,6 +1790,13 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<real>1200</real>
 			<key>ypos</key>
 			<real>495</real>
+		</dict>
+		<key>F5E386A5-97B2-4C21-BB64-D9F8437B0DFE</key>
+		<dict>
+			<key>xpos</key>
+			<real>835</real>
+			<key>ypos</key>
+			<real>530</real>
 		</dict>
 		<key>F73B4172-5C12-4BAF-B7AD-B53D338E1893</key>
 		<dict>
