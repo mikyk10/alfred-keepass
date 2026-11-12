@@ -209,15 +209,9 @@ func exportAttachment(db *gokeepasslib.Database, entry *gokeepasslib.Entry, name
 		if bin == nil {
 			return errors.Errorf("attachment has no data: %s", name)
 		}
-		// KDBX 4 keeps attachments as they are. GetContentBytes would still
-		// try to base64-decode them, corrupting any that happen to be valid
-		// base64, so it is only used for the encoded KDBX 3.1 ones.
-		data := bin.Content
-		if !db.Header.IsKdbx4() {
-			var err error
-			if data, err = bin.GetContentBytes(); err != nil {
-				return errors.WithStack(err)
-			}
+		data, err := bin.GetContentBytes()
+		if err != nil {
+			return errors.WithStack(err)
 		}
 		return errors.WithStack(os.WriteFile(path, data, 0666))
 	}
