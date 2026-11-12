@@ -15,4 +15,5 @@ func init() {
 	RootCmd.AddCommand(clipCmd)
 	RootCmd.AddCommand(showCmd)
 	RootCmd.AddCommand(attachmentExportCmd)
+	RootCmd.AddCommand(clearClipboardCmd)
 }

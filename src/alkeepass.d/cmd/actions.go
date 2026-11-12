@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
@@ -21,8 +22,8 @@ var clipCmd = &cobra.Command{
 	Use:   "clip [flags] entry [timeout]",
 	Short: "Copy an attribute or the TOTP of an entry to the clipboard",
 	Long: `Copy an attribute or the TOTP of an entry to the clipboard. After timeout
-seconds (default 10, 0 to never clear) the clipboard is cleared if it still
-holds the copied value.`,
+seconds (default 10, 0 to never clear) the clipboard is cleared in the
+background if it still holds the copied value.`,
 	Args: cobra.RangeArgs(1, 2),
 	Run:  clipMain,
 }
@@ -39,6 +40,16 @@ var attachmentExportCmd = &cobra.Command{
 	Short: "Save an attachment of an entry to a file",
 	Args:  cobra.ExactArgs(3),
 	Run:   attachmentExportMain,
+}
+
+// clearClipboardCmd is started by clip to clear the clipboard in the
+// background. It reads the digest of the copied value from stdin.
+var clearClipboardCmd = &cobra.Command{
+	Use:    "clear-clipboard timeout",
+	Short:  "Clear the clipboard after timeout if it still holds the copied value",
+	Hidden: true,
+	Args:   cobra.ExactArgs(1),
+	Run:    clearClipboardMain,
 }
 
 // defaultClipTimeout is how long a copied value stays in the clipboard when
@@ -77,6 +88,14 @@ func attachmentExportMain(cmd *cobra.Command, args []string) {
 	db, entry, err := openConfiguredEntry(args[0])
 	exitOnError(err)
 	exitOnError(exportAttachment(db, entry, args[1], args[2]))
+}
+
+func clearClipboardMain(cmd *cobra.Command, args []string) {
+	timeout, err := time.ParseDuration(args[0])
+	exitOnError(errors.WithStack(err))
+	digest, err := io.ReadAll(os.Stdin)
+	exitOnError(errors.WithStack(err))
+	exitOnError(clearClipboardAfter(string(digest), timeout))
 }
 
 // exitOnError reports err on stderr and exits non-zero. The actions run after

@@ -162,18 +162,6 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>sourceoutputuid</key>
-				<string>298D37E2-5DF5-4CC9-AC1E-975328E6FF60</string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-			<dict>
-				<key>destinationuid</key>
 				<string>E745386E-68B1-43FB-ACE7-912986530B60</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -347,16 +335,6 @@
 				<key>vitoclose</key>
 				<false/>
 			</dict>
-			<dict>
-				<key>destinationuid</key>
-				<string>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
 		</array>
 		<key>B64F5820-7244-48F3-B6F5-CC1E84773482</key>
 		<array>
@@ -401,6 +379,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>3F676799-F097-4BC8-A266-7536A4B010C0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>E745386E-68B1-43FB-ACE7-912986530B60</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -512,7 +503,7 @@
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
-				<false/>
+				<true/>
 				<key>removeextension</key>
 				<false/>
 				<key>text</key>
@@ -536,7 +527,8 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass clip --totp -- "$q" 10</string>
+./alkeepass clip --totp -- "$q" 10 || exit 1
+echo -n "copied"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
