@@ -12,4 +12,7 @@ func init() {
 	RootCmd.AddCommand(passwordCmd)
 	RootCmd.AddCommand(setPasswordCmd)
 	RootCmd.AddCommand(unlockCmd)
+	RootCmd.AddCommand(clipCmd)
+	RootCmd.AddCommand(showCmd)
+	RootCmd.AddCommand(attachmentExportCmd)
 }
