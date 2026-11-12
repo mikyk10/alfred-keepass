@@ -8,6 +8,24 @@ import (
 	"github.com/tobischo/gokeepasslib/v3"
 )
 
+// TestOpenArgon2id verifies that a KDBX 4 database using the Argon2id KDF can be
+// opened. Upstream gokeepasslib only handles Argon2d and derived a wrong key for
+// Argon2id, failing with "HMAC-SHA256 of header mismatching". The fixture was
+// cross-checked with keepassxc-cli.
+func TestOpenArgon2id(t *testing.T) {
+	dbPath := filepath.Join("testdata", "argon2id.kdbx")
+
+	db, err := openDatabase(dbPath, gokeepasslib.NewPasswordCredentials("Abc12345"))
+	if assert.NoError(t, err) {
+		entry := db.Content.Root.Groups[0].Entries[0]
+		assert.Equal(t, "Entry1", entry.GetTitle())
+		assert.Equal(t, "secret1", entry.GetPassword())
+	}
+
+	_, err = openDatabase(dbPath, gokeepasslib.NewPasswordCredentials("wrong"))
+	assert.Error(t, err)
+}
+
 // TestOpenErrors verifies that a missing database file, a wrong password and a
 // missing entry surface as errors instead of panicking on a nil reader.
 func TestOpenErrors(t *testing.T) {
