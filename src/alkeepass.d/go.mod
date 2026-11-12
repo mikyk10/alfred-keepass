@@ -19,4 +19,4 @@ require (
 	golang.org/x/sys v0.49.0 // indirect
 )
 
-replace github.com/tobischo/gokeepasslib/v3 => ../../../gokeepasslib
+replace github.com/tobischo/gokeepasslib/v3 => github.com/mikyk10/gokeepasslib/v3 v3.0.0-20261112023352-a464eed27692
