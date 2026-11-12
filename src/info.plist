@@ -536,8 +536,7 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-pw=$(./alkeepass password) || exit 1
-printf '%s\n' "$pw" | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$q"</string>
+./alkeepass clip --totp -- "$q" 10</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -720,9 +719,8 @@ printf '%s\n' "$pw" | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-pw=$(./alkeepass password) || exit 1
-otp=$(printf '%s\n' "$pw" | $keepassxc_cli_path show --totp "$keepassxc_db_path" "$q")
-passwd=$(printf '%s\n' "$pw" | $keepassxc_cli_path show -s -a Password "$keepassxc_db_path" "$q")
+otp=$(./alkeepass show --totp -- "$q") || exit 1
+passwd=$(./alkeepass show -a Password -- "$q") || exit 1
 echo -n "${otp}${passwd}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -766,8 +764,7 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-pw=$(./alkeepass password) || exit 1
-printf '%s\n' "$pw" | $keepassxc_cli_path attachment-export "$keepassxc_db_path" "$q" "$filename" "$HOME/Downloads/$filename"</string>
+./alkeepass attachment-export -- "$q" "$filename" "$HOME/Downloads/$filename"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -867,8 +864,7 @@ printf '%s\n' "$pw" | $keepassxc_cli_path attachment-export "$keepassxc_db_path"
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-pw=$(./alkeepass password) || exit 1
-printf '%s\n' "$pw" | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" "$q" 0</string>
+./alkeepass clip -a "$ATTR" -- "$q" 0</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1094,8 +1090,7 @@ printf '%s\n' "$pw" | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" 
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-pw=$(./alkeepass password) || exit 1
-printf '%s\n' "$pw" | $keepassxc_cli_path show -a $ATTR "$keepassxc_db_path" "$q"</string>
+./alkeepass show -a "$ATTR" -- "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1527,7 +1522,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 		<key>03C52792-311C-4DBC-BC07-60BBD02AD330</key>
 		<dict>
 			<key>note</key>
-			<string>run keepassxc-cli to copy an attribute</string>
+			<string>copy an attribute</string>
 			<key>xpos</key>
 			<real>1200</real>
 			<key>ypos</key>
@@ -1621,7 +1616,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 		<key>37C5F3DB-2533-415E-8616-7FAC3706639F</key>
 		<dict>
 			<key>note</key>
-			<string>run keepassxc-cli to get otp token and password combined</string>
+			<string>get otp token and password combined</string>
 			<key>xpos</key>
 			<real>1200</real>
 			<key>ypos</key>
@@ -1776,7 +1771,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 		<key>E745386E-68B1-43FB-ACE7-912986530B60</key>
 		<dict>
 			<key>note</key>
-			<string>run keepassxc-cli to copy TOTP</string>
+			<string>copy TOTP</string>
 			<key>xpos</key>
 			<real>1200</real>
 			<key>ypos</key>
@@ -1785,7 +1780,7 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 		<key>EEC7BC47-9C07-413B-8865-D8FE31217D39</key>
 		<dict>
 			<key>note</key>
-			<string>run keepassxc-cli to extract an attached file</string>
+			<string>extract an attached file</string>
 			<key>xpos</key>
 			<real>1200</real>
 			<key>ypos</key>
@@ -1864,8 +1859,6 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 	<dict>
 		<key>alf_keyword</key>
 		<string>kp</string>
-		<key>keepassxc_cli_path</key>
-		<string>/usr/local/bin/keepassxc-cli</string>
 		<key>wf_name</key>
 		<string>Alfred KeePass Workflow</string>
 	</dict>
