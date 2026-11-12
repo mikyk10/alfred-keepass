@@ -1490,7 +1490,6 @@ This Alfred workflow allows you to quickly search and copy passwords from your K
 ## Requirements
 
 * Alfred 5 or later with the Powerpack upgrade.
-* KeepassXC
 * A KeePass database.
 
 ## Installation
