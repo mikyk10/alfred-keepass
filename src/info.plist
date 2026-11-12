@@ -536,7 +536,8 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass password | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$q"</string>
+pw=$(./alkeepass password) || exit 1
+printf '%s\n' "$pw" | $keepassxc_cli_path clip -b --totp "$keepassxc_db_path" "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -719,8 +720,9 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-otp=$(./alkeepass password | $keepassxc_cli_path show --totp "$keepassxc_db_path" "$q")
-passwd=$(./alkeepass password | $keepassxc_cli_path show -s -a Password "$keepassxc_db_path" "$q")
+pw=$(./alkeepass password) || exit 1
+otp=$(printf '%s\n' "$pw" | $keepassxc_cli_path show --totp "$keepassxc_db_path" "$q")
+passwd=$(printf '%s\n' "$pw" | $keepassxc_cli_path show -s -a Password "$keepassxc_db_path" "$q")
 echo -n "${otp}${passwd}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
@@ -764,7 +766,8 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass password | $keepassxc_cli_path attachment-export "$keepassxc_db_path" "$q" "$filename" "$HOME/Downloads/$filename"</string>
+pw=$(./alkeepass password) || exit 1
+printf '%s\n' "$pw" | $keepassxc_cli_path attachment-export "$keepassxc_db_path" "$q" "$filename" "$HOME/Downloads/$filename"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -864,7 +867,8 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass password | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" "$q" 0</string>
+pw=$(./alkeepass password) || exit 1
+printf '%s\n' "$pw" | $keepassxc_cli_path clip -b -a $ATTR "$keepassxc_db_path" "$q" 0</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1090,7 +1094,8 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass password | $keepassxc_cli_path show -a $ATTR "$keepassxc_db_path" "$q"</string>
+pw=$(./alkeepass password) || exit 1
+printf '%s\n' "$pw" | $keepassxc_cli_path show -a $ATTR "$keepassxc_db_path" "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
