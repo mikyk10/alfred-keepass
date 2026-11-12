@@ -9,7 +9,7 @@ This Alfred workflow allows you to quickly search and copy passwords from your K
 
 - Built on Golang for faster search performance. 
 - KDB3 and KDB4 are supported.
-- TOTP, attributes and attached files are supported powered by keepassxc-cli
+- TOTP, attributes and attached files are supported
 - Fuzzy search for the faster result
 - Simple and intuitive interface.
 
@@ -24,12 +24,6 @@ or if you prefer building the app on your own. See Contribution for more detail.
 <img width="1100" alt="installation" src="https://user-images.githubusercontent.com/4987502/218407644-7069c96a-7c63-4b94-8385-2c30e3bf45c0.png">
 
 4. Type `kp:setpass` in Alfred and enter your master password. The first time, macOS also asks you to choose a password for a new keychain dedicated to this workflow (`~/Library/Keychains/alfred-keepass.keychain-db`); the master password is stored there, not in the workflow configuration. Run `kp:setpass` again to change it.
-
-5. Run the following command in terminal to make a symbolic link.
-
-```
-ln -s /Applications/KeePassXC.app//Contents/MacOS/keepassxc-cli /usr/local/bin
-```
 
 ## Usage
 1. Trigger Alfred by pressing the Alfred hotkey.
@@ -60,12 +54,12 @@ While it is unlocked, the item can be read through the `security` command by any
 ## Limitation
 
 * Currently `master password` encrypted .kdbx is supported. Not much tested yet.
+* TOTP is generated from the `otpauth://` URI that KeePassXC stores in the `otp` attribute. Steam and HOTP tokens are not supported.
 
 ## Requirements
 
 * Alfred 5 or later with the Powerpack upgrade.
 * A KeePass database.
-* KeepassXC for TOTP.
 
 ## Contribution
 I am very welcome any contributions to improve it. If you have any bug reports, feature requests, or code contributions, please open an issue or pull request on the GitHub repository.
