@@ -171,6 +171,8 @@ var standardAttributes = []string{"Title", "UserName", "Password", "URL", "Notes
 // case-insensitively, so that e.g. "password" finds "Password", and it reads
 // a missing standard attribute as empty.
 func findAttribute(entry *gokeepasslib.Entry, name string) (string, error) {
+	// TODO: resolve placeholders such as {USERNAME} and field references
+	// ({REF:...}) as keepassxc-cli does; values are returned as stored.
 	if v := entry.Get(name); v != nil {
 		return v.Value.Content, nil
 	}

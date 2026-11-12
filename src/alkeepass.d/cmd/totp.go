@@ -46,6 +46,8 @@ func entryTOTP(entry *gokeepasslib.Entry, now time.Time) (string, error) {
 // Other formats (e.g. HOTP, Steam or KeeOtp's key=... settings) are rejected.
 // Errors never quote the URI, since it contains the secret.
 func parseOTPAuth(uri string) (*totp, error) {
+	// TODO: support the other formats keepassxc-cli accepts in the otp
+	// attribute, e.g. Steam tokens (encoder=steam) and KeeOtp's key=... settings.
 	u, err := url.Parse(strings.TrimSpace(uri))
 	if err != nil || u.Scheme != "otpauth" {
 		return nil, errors.New("unsupported TOTP format: the otp attribute is not an otpauth:// URI")
