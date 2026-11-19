@@ -19,4 +19,4 @@ require (
 	golang.org/x/crypto v0.59.0 // indirect
 )
 
-replace github.com/tobischo/gokeepasslib/v3 => github.com/mikyk10/gokeepasslib/v3 v3.0.0-20261118080207-da24cb3f1905
+replace github.com/tobischo/gokeepasslib/v3 => github.com/mikyk10/gokeepasslib/v3 v3.0.0-20261118080207-5f94ceb9be3b
