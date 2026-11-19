@@ -7,7 +7,18 @@
 	<key>connections</key>
 	<dict>
 		<key>03C52792-311C-4DBC-BC07-60BBD02AD330</key>
-		<array/>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5F838D71-EA66-4441-AB4F-86B99D31FE9E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>0439D588-D780-4261-B62C-044F3F87014F</key>
 		<array>
 			<dict>
@@ -65,6 +76,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>03C52792-311C-4DBC-BC07-60BBD02AD330</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>1BFB4F44-8C19-4E4A-A267-18E80F1B9A41</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>EB987578-4B92-4484-B3BD-29B655862DF4</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -149,7 +173,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</string>
+				<string>B5183A5F-6694-42F0-B1D0-D94A95D12F45</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -223,7 +247,7 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>F77492FA-3C53-4DD6-981E-20C6E7F7FAE0</string>
+				<string>9C554DF3-ADCA-4804-9FE4-CA60C045B4B8</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -336,6 +360,56 @@
 				<false/>
 			</dict>
 		</array>
+		<key>9C554DF3-ADCA-4804-9FE4-CA60C045B4B8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>F77492FA-3C53-4DD6-981E-20C6E7F7FAE0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>53B965C4-E622-4443-8D66-D9DD217177DE</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>2F5A2D49-2CF0-4F93-B123-E116869B4E95</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>B5183A5F-6694-42F0-B1D0-D94A95D12F45</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>92B02453-F5D0-4B92-99EC-AE0D2ABE4679</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>6B1B7309-EF04-42AF-AF62-42069169CD1E</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>B64F5820-7244-48F3-B6F5-CC1E84773482</key>
 		<array>
 			<dict>
@@ -392,6 +466,19 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>9C41C249-8B02-4268-9DC1-9C75F4AA2FCB</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>EB987578-4B92-4484-B3BD-29B655862DF4</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7C2E4083-9D5F-4B7B-B06C-4EAF3D8B5C92</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -507,7 +594,7 @@
 				<key>removeextension</key>
 				<false/>
 				<key>text</key>
-				<string>TOTP token is copied.</string>
+				<string>{query}</string>
 				<key>title</key>
 				<string>{var:wf_name}</string>
 			</dict>
@@ -527,8 +614,11 @@
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass clip --totp -- "$q" 10 || exit 1
-echo -n "copied"</string>
+if err=$(./alkeepass clip --totp -- "$q" 10 2&gt;&amp;1 &gt;/dev/null); then
+  echo -n "TOTP token is copied."
+else
+  echo -n "Failed to copy the TOTP: $err"
+fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -711,9 +801,7 @@ echo -n "copied"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-otp=$(./alkeepass show --totp -- "$q") || exit 1
-passwd=$(./alkeepass show -a Password -- "$q") || exit 1
-echo -n "${otp}${passwd}"</string>
+./alkeepass show --alfred --prepend-totp -a Password -- "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -756,7 +844,11 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass attachment-export -- "$q" "$filename" "$HOME/Downloads/$filename"</string>
+if err=$(./alkeepass attachment-export -- "$q" "$filename" "$HOME/Downloads/$filename" 2&gt;&amp;1 &gt;/dev/null); then
+  echo -n "$filename has been saved under ~/Downloads/"
+else
+  echo -n "Failed to save $filename: $err"
+fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -777,11 +869,11 @@ echo -n "${otp}${passwd}"</string>
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
-				<false/>
+				<true/>
 				<key>removeextension</key>
 				<false/>
 				<key>text</key>
-				<string>{var:filename} has been saved under ~/Downloads/</string>
+				<string>{query}</string>
 				<key>title</key>
 				<string>{var:wf_name}</string>
 			</dict>
@@ -856,7 +948,8 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass clip -a "$ATTR" -- "$q" 0</string>
+err=$(./alkeepass clip -a "$ATTR" -- "$q" 0 2&gt;&amp;1 &gt;/dev/null) ||
+  echo -n "Failed to copy the $ATTR: $err"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1082,7 +1175,7 @@ echo -n "${otp}${passwd}"</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>q=$(echo "$ITEM_PATH" | iconv -f UTF-8-MAC -t UTF-8)
-./alkeepass show -a "$ATTR" -- "$q"</string>
+./alkeepass show --alfred -a "$ATTR" -- "$q"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -1349,8 +1442,19 @@ fi</string>
 				<integer>102</integer>
 				<key>script</key>
 				<string>pw=$(osascript \
-  -e 'display dialog "Enter the KeePass master password to store in the workflow keychain. The first time, macOS will also ask you to choose a password for that keychain." default answer "" with hidden answer with title "Alfred KeePass Workflow" with icon caution' \
+  -e 'display dialog "Enter the KeePass master password to store in the workflow keychain. The first time, macOS will also ask you to choose a password for that keychain." &amp; return &amp; return &amp; "Leave it empty if the database has no password, or an empty one." default answer "" with hidden answer with title "Alfred KeePass Workflow" with icon caution' \
   -e 'text returned of result' 2&gt;/dev/null) || exit 0
+if [ -z "$pw" ]; then
+  osascript \
+    -e 'display dialog "Store no master password? The workflow keychain is deleted, and the database is opened without a password, or with an empty one." buttons {"Cancel", "Store No Password"} default button "Cancel" cancel button "Cancel" with title "Alfred KeePass Workflow" with icon caution' \
+    &gt;/dev/null 2&gt;&amp;1 || exit 0
+  if err=$(./alkeepass delete-password 2&gt;&amp;1); then
+    echo -n "No master password is stored: the database is opened without one."
+  else
+    echo -n "Failed to delete the master password: $err"
+  fi
+  exit 0
+fi
 if err=$(printf '%s\n' "$pw" | ./alkeepass set-password 2&gt;&amp;1); then
   echo -n "Master password is stored in the keychain."
 else
@@ -1482,6 +1586,181 @@ echo -n "$1"</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>keyword</key>
+				<string>{var:alf_keyword}:lock</string>
+				<key>subtext</key>
+				<string>Forget the cached key and lock the keychain holding the master password</string>
+				<key>text</key>
+				<string>🔒 Lock</string>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.keyword</string>
+			<key>uid</key>
+			<string>1BFB4F44-8C19-4E4A-A267-18E80F1B9A41</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>if err=$(./alkeepass lock 2&gt;&amp;1); then
+  echo -n "Locked: the cached key is forgotten and the keychain is locked."
+else
+  echo -n "Failed to lock: $err"
+fi</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>EB987578-4B92-4484-B3BD-29B655862DF4</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>{var:wf_name}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>5F838D71-EA66-4441-AB4F-86B99D31FE9E</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:kp_error}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string></string>
+						<key>outputlabel</key>
+						<string>copy</string>
+						<key>uid</key>
+						<string>53B965C4-E622-4443-8D66-D9DD217177DE</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>failed</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>9C554DF3-ADCA-4804-9FE4-CA60C045B4B8</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Failed to copy the TOTP and password: {var:kp_error}</string>
+				<key>title</key>
+				<string>{var:wf_name}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>2F5A2D49-2CF0-4F93-B123-E116869B4E95</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:kp_error}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string></string>
+						<key>outputlabel</key>
+						<string>open</string>
+						<key>uid</key>
+						<string>92B02453-F5D0-4B92-99EC-AE0D2ABE4679</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>failed</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>B5183A5F-6694-42F0-B1D0-D94A95D12F45</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>Failed to open the URL: {var:kp_error}</string>
+				<key>title</key>
+				<string>{var:wf_name}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>6B1B7309-EF04-42AF-AF62-42069169CD1E</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string># Alfred KeePass Workflow
@@ -1498,8 +1777,9 @@ This Alfred workflow allows you to quickly search and copy passwords from your K
 
 or if you prefer building the app on your own. See Contribution for more detail.
 
-3. Fill out the configuration with your KeePassXC database file path (and key file if you use one).
-4. Type `kp:setpass` in Alfred and enter your master password. It is stored in a dedicated keychain that locks itself after 5 minutes of inactivity, not in the workflow configuration.
+3. Fill out the configuration with your KeePassXC database file path (and key file and YubiKey slot if you use them).
+4. Type `kp:setpass` in Alfred and enter your master password. It is stored in a dedicated keychain that locks itself after 5 minutes of inactivity, not in the workflow configuration. Leave it empty if the database has no password, or an empty one.
+5. Optionally set `Key cache (minutes)` to keep the derived key in memory, so that searches skip the master password, the YubiKey and the key derivation. It is forgotten when the time is up, when the database is saved, and after sleep or screen lock. `kp:lock` forgets it and locks the keychain at once, so that the next search asks for the keychain password again.
 
 ## Usage
 1. Trigger Alfred by pressing the Alfred hotkey.
@@ -1574,6 +1854,15 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<key>ypos</key>
 			<real>800</real>
 		</dict>
+		<key>1BFB4F44-8C19-4E4A-A267-18E80F1B9A41</key>
+		<dict>
+			<key>note</key>
+			<string>forget the cached key and lock the keychain</string>
+			<key>xpos</key>
+			<real>165</real>
+			<key>ypos</key>
+			<real>1780</real>
+		</dict>
 		<key>1F195254-B8C5-4C28-8235-898211A08C2E</key>
 		<dict>
 			<key>xpos</key>
@@ -1589,6 +1878,13 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<real>165</real>
 			<key>ypos</key>
 			<real>1110</real>
+		</dict>
+		<key>2F5A2D49-2CF0-4F93-B123-E116869B4E95</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1640</integer>
+			<key>ypos</key>
+			<integer>400</integer>
 		</dict>
 		<key>3245CC2C-FC62-43E6-B01A-ED1B0EA3934E</key>
 		<dict>
@@ -1643,6 +1939,13 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<key>ypos</key>
 			<real>1660</real>
 		</dict>
+		<key>5F838D71-EA66-4441-AB4F-86B99D31FE9E</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1460</integer>
+			<key>ypos</key>
+			<integer>720</integer>
+		</dict>
 		<key>5FFF8703-6DC1-4BFA-ABF6-986FC93275B4</key>
 		<dict>
 			<key>xpos</key>
@@ -1656,6 +1959,13 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<real>595</real>
 			<key>ypos</key>
 			<real>850</real>
+		</dict>
+		<key>6B1B7309-EF04-42AF-AF62-42069169CD1E</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1200</integer>
+			<key>ypos</key>
+			<integer>1000</integer>
 		</dict>
 		<key>6B1D3F72-8C4E-4A6A-AF5B-3D9E2C7A4B81</key>
 		<dict>
@@ -1701,6 +2011,13 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<key>ypos</key>
 			<real>70</real>
 		</dict>
+		<key>9C554DF3-ADCA-4804-9FE4-CA60C045B4B8</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1460</integer>
+			<key>ypos</key>
+			<integer>340</integer>
+		</dict>
 		<key>A8324C0F-E0A7-4B44-96C4-072969B066D1</key>
 		<dict>
 			<key>xpos</key>
@@ -1714,6 +2031,13 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<real>360</real>
 			<key>ypos</key>
 			<real>885</real>
+		</dict>
+		<key>B5183A5F-6694-42F0-B1D0-D94A95D12F45</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1030</integer>
+			<key>ypos</key>
+			<integer>910</integer>
 		</dict>
 		<key>B64F5820-7244-48F3-B6F5-CC1E84773482</key>
 		<dict>
@@ -1768,6 +2092,13 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<key>ypos</key>
 			<real>190</real>
 		</dict>
+		<key>EB987578-4B92-4484-B3BD-29B655862DF4</key>
+		<dict>
+			<key>xpos</key>
+			<real>400</real>
+			<key>ypos</key>
+			<real>1780</real>
+		</dict>
 		<key>EEC7BC47-9C07-413B-8865-D8FE31217D39</key>
 		<dict>
 			<key>note</key>
@@ -1796,9 +2127,9 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 		<key>F77492FA-3C53-4DD6-981E-20C6E7F7FAE0</key>
 		<dict>
 			<key>xpos</key>
-			<real>1460</real>
+			<integer>1640</integer>
 			<key>ypos</key>
-			<real>340</real>
+			<integer>320</integer>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -1844,6 +2175,95 @@ Alternatively you can also copy `username` and `URL` by holding CMD or ALT befor
 			<string>filepicker</string>
 			<key>variable</key>
 			<string>keepassxc_keyfile_path</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string></string>
+				<key>pairs</key>
+				<array>
+					<array>
+						<string>Not used</string>
+						<string></string>
+					</array>
+					<array>
+						<string>Slot 1</string>
+						<string>1</string>
+					</array>
+					<array>
+						<string>Slot 2</string>
+						<string>2</string>
+					</array>
+				</array>
+			</dict>
+			<key>description</key>
+			<string>Slot of the YubiKey whose HMAC-SHA1 challenge-response protects the database, as set up in KeePassXC (KDBX 4 only)</string>
+			<key>label</key>
+			<string>YubiKey</string>
+			<key>type</key>
+			<string>popupbutton</string>
+			<key>variable</key>
+			<string>keepassxc_yubikey_slot</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>0</string>
+				<key>placeholder</key>
+				<string>0</string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Keep the derived key in memory for this many minutes, so that searches and copies skip the master password, the YubiKey and the key derivation. 0 turns the cache off (at most 1440). kp:lock forgets it and locks the keychain at once.</string>
+			<key>label</key>
+			<string>Key cache (minutes)</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>keepassxc_key_cache_minutes</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<true/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string>Forget the cached key after the Mac sleeps</string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Forget on sleep</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>keepassxc_key_cache_forget_on_sleep</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<true/>
+				<key>required</key>
+				<false/>
+				<key>text</key>
+				<string>Forget the cached key when the screen locks</string>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Forget on screen lock</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>keepassxc_key_cache_forget_on_screen_lock</string>
 		</dict>
 	</array>
 	<key>variables</key>

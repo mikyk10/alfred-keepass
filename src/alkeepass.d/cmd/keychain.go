@@ -46,6 +46,17 @@ var setPasswordCmd = &cobra.Command{
 	Run:   setPasswordMain,
 }
 
+var deletePasswordCmd = &cobra.Command{
+	Use:   "delete-password",
+	Short: "Delete the keychain holding the master password, for a database without one",
+	Args:  cobra.NoArgs,
+	Run: func(cmd *cobra.Command, args []string) {
+		kc, err := keychainPath()
+		exitOnError(err)
+		exitOnError(deleteKeychainFile(kc))
+	},
+}
+
 var unlockCmd = &cobra.Command{
 	Use:   "unlock",
 	Short: "Ask the user to unlock the keychain holding the master password",
@@ -67,9 +78,24 @@ var keychainLocked = func() (bool, error) {
 	return keychainFileLocked(kc)
 }
 
+// lockKeychain locks the dedicated keychain, so that the master password can
+// only be read again once the user has unlocked it. A missing keychain is not
+// an error. It is a variable so tests can replace it.
+var lockKeychain = func() error {
+	kc, err := keychainPath()
+	if err != nil {
+		return err
+	}
+	if _, err := os.Stat(kc); os.IsNotExist(err) {
+		return nil
+	}
+	return runSecurity("lock-keychain", kc)
+}
+
 // unlockKeychain asks the user to unlock the dedicated keychain if it is
-// locked, and returns once it has been answered.
-func unlockKeychain() error {
+// locked, and returns once it has been answered. It is a variable so tests
+// can replace it.
+var unlockKeychain = func() error {
 	locked, err := keychainLocked()
 	if err != nil || !locked {
 		return err
@@ -79,6 +105,18 @@ func unlockKeychain() error {
 		return err
 	}
 	return unlockKeychainFile(kc)
+}
+
+// deleteKeychainFile deletes the keychain file kc, and with it the master
+// password stored there. Without the dedicated keychain, the database is
+// opened without a password (or with an empty one), and a search no longer
+// waits for the keychain to be unlocked only to find no password in it. A
+// missing keychain is not an error.
+func deleteKeychainFile(kc string) error {
+	if _, err := os.Stat(kc); os.IsNotExist(err) {
+		return nil
+	}
+	return runSecurity("delete-keychain", kc)
 }
 
 // keychainPath returns the location of the dedicated keychain.

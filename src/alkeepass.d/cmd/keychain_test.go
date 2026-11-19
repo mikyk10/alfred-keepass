@@ -84,4 +84,14 @@ func TestKeychainRoundTrip(t *testing.T) {
 		assert.NoError(t, err)
 		assert.Equal(t, passwd, got)
 	}
+
+	assert.NoError(t, deleteKeychainFile(kc))
+	assert.NoFileExists(t, kc)
+	p, err = readKeychainItem(kc, service)
+	assert.NoError(t, err)
+	assert.Equal(t, "", p, "no password once the keychain is deleted")
+}
+
+func TestDeleteMissingKeychain(t *testing.T) {
+	assert.NoError(t, deleteKeychainFile(filepath.Join(t.TempDir(), "missing.keychain-db")))
 }

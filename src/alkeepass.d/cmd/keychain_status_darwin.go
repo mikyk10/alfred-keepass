@@ -54,7 +54,11 @@ func keychainFileLocked(kc string) (bool, error) {
 func unlockKeychainFile(kc string) error {
 	p := C.CString(kc)
 	defer C.free(unsafe.Pointer(p))
-	if st := C.kpKeychainUnlock(p); st != C.errSecSuccess {
+	switch st := C.kpKeychainUnlock(p); st {
+	case C.errSecSuccess:
+	case C.errSecUserCanceled:
+		return errors.New("unlocking the keychain was cancelled")
+	default:
 		return errors.Errorf("the keychain was not unlocked (OSStatus %d)", int(st))
 	}
 	return nil

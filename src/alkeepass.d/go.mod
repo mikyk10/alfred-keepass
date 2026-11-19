@@ -7,6 +7,7 @@ require (
 	github.com/spf13/cobra v1.3.0
 	github.com/stretchr/testify v1.12.1
 	github.com/tobischo/gokeepasslib/v3 v3.7.1
+	golang.org/x/sys v0.49.0
 	golang.org/x/text v0.43.0
 )
 
@@ -16,7 +17,6 @@ require (
 	github.com/tobischo/argon2 v0.2.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/crypto v0.58.0 // indirect
-	golang.org/x/sys v0.49.0 // indirect
 )
 
-replace github.com/tobischo/gokeepasslib/v3 => github.com/mikyk10/gokeepasslib/v3 v3.0.0-20261112023352-a464eed27692
+replace github.com/tobischo/gokeepasslib/v3 => github.com/mikyk10/gokeepasslib/v3 v3.0.0-20261118080207-da24cb3f1905

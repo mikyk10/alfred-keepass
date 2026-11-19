@@ -3,9 +3,14 @@ package cmd
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
+	"time"
 
+	"github.com/pkg/errors"
+	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"github.com/tobischo/gokeepasslib/v3"
 )
 
@@ -79,7 +84,7 @@ func TestOpenEntry(t *testing.T) {
 	dbPath := filepath.Join("testdata", "actions.kdbx")
 
 	t.Run("top-level entry", func(t *testing.T) {
-		_, entry, err := openEntry(dbPath, "", "Abc12345", "Example")
+		_, entry, err := openEntry(dbPath, "", "Abc12345", 0, "Example")
 		if assert.NoError(t, err) {
 			v, err := findAttribute(entry, "password")
 			assert.NoError(t, err)
@@ -88,19 +93,19 @@ func TestOpenEntry(t *testing.T) {
 	})
 
 	t.Run("entry in a group", func(t *testing.T) {
-		_, entry, err := openEntry(dbPath, "", "Abc12345", "TOTP/SHA256")
+		_, entry, err := openEntry(dbPath, "", "Abc12345", 0, "TOTP/SHA256")
 		if assert.NoError(t, err) {
 			assert.Equal(t, "SHA256", entry.GetTitle())
 		}
 	})
 
 	t.Run("the path does not include the root group", func(t *testing.T) {
-		_, _, err := openEntry(dbPath, "", "Abc12345", "Root/Example")
+		_, _, err := openEntry(dbPath, "", "Abc12345", 0, "Root/Example")
 		assert.ErrorContains(t, err, "entry not found")
 	})
 
 	t.Run("wrong password", func(t *testing.T) {
-		_, _, err := openEntry(dbPath, "", "wrong", "Example")
+		_, _, err := openEntry(dbPath, "", "wrong", 0, "Example")
 		assert.Error(t, err)
 	})
 
@@ -110,18 +115,18 @@ func TestOpenEntry(t *testing.T) {
 		if err := os.WriteFile(keyfile, make([]byte, 32), 0600); err != nil {
 			t.Fatal(err)
 		}
-		_, _, err := openEntry(dbPath, keyfile, "Abc12345", "Example")
+		_, _, err := openEntry(dbPath, keyfile, "Abc12345", 0, "Example")
 		assert.Error(t, err)
 	})
 
 	t.Run("no credentials", func(t *testing.T) {
-		_, _, err := openEntry(dbPath, "", "", "Example")
-		assert.ErrorContains(t, err, "kp:setpass")
+		_, _, err := openEntry(dbPath, "", "", 0, "Example")
+		assert.ErrorContains(t, err, "Wrong password")
 	})
 }
 
 func TestExportAttachment(t *testing.T) {
-	db, entry, err := openEntry(filepath.Join("testdata", "actions.kdbx"), "", "Abc12345", "Example")
+	db, entry, err := openEntry(filepath.Join("testdata", "actions.kdbx"), "", "Abc12345", 0, "Example")
 	if !assert.NoError(t, err) {
 		return
 	}
@@ -173,4 +178,63 @@ func TestExportAttachment(t *testing.T) {
 			assert.Equal(t, "QWJjMTIzNDU=", string(got))
 		}
 	})
+}
+
+func TestSelectedValue(t *testing.T) {
+	dbPath := filepath.Join("testdata", "actions.kdbx")
+	useWorkflow(t, dbPath, "Abc12345", nil)
+	_, example, err := openEntry(dbPath, "", "Abc12345", 0, "Example")
+	require.NoError(t, err)
+	value := func(flags ...string) (string, error) {
+		cmd := &cobra.Command{}
+		addValueFlags(cmd)
+		require.NoError(t, cmd.ParseFlags(flags))
+		return selectedValue(cmd, "Example")
+	}
+	// totps returns the TOTPs of the Example entry from before to now.
+	totps := func(before time.Time) []string {
+		var codes []string
+		for _, at := range []time.Time{before, time.Now()} {
+			code, err := entryTOTP(example, at)
+			require.NoError(t, err)
+			codes = append(codes, code)
+		}
+		return codes
+	}
+
+	t.Run("the password by default", func(t *testing.T) {
+		v, err := value()
+		assert.NoError(t, err)
+		assert.Equal(t, "Abc12345!", v)
+	})
+
+	t.Run("the TOTP", func(t *testing.T) {
+		before := time.Now()
+		v, err := value("--totp")
+		assert.NoError(t, err)
+		assert.Contains(t, totps(before), v)
+	})
+
+	t.Run("the TOTP in front of the password", func(t *testing.T) {
+		before := time.Now()
+		v, err := value("--prepend-totp")
+		require.NoError(t, err)
+		otp, ok := strings.CutSuffix(v, "Abc12345!")
+		require.True(t, ok, v)
+		assert.Contains(t, totps(before), otp)
+	})
+
+	t.Run("--totp takes no other flag", func(t *testing.T) {
+		_, err := value("--totp", "--prepend-totp")
+		assert.ErrorContains(t, err, "--totp takes")
+		_, err = value("--totp", "-a", "URL")
+		assert.ErrorContains(t, err, "--totp takes")
+	})
+}
+
+func TestAlfredOutput(t *testing.T) {
+	assert.JSONEq(t, `{"alfredworkflow": {"arg": "a\"b\\c", "variables": {"kp_error": ""}}}`,
+		string(alfredOutput(`a"b\c`, nil)))
+	assert.JSONEq(t, `{"alfredworkflow": {"arg": "", "variables": {"kp_error": "the YubiKey was not touched in time"}}}`,
+		string(alfredOutput("", errors.New("the YubiKey was not touched in time"))))
 }

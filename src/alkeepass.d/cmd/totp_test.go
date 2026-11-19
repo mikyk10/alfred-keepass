@@ -136,7 +136,7 @@ func TestEntryTOTP(t *testing.T) {
 		{"TOTP/Lowercase", 1794447226, "7307936"},
 	}
 	for _, c := range cases {
-		_, entry, err := openEntry(dbPath, "", "Abc12345", c.entry)
+		_, entry, err := openEntry(dbPath, "", "Abc12345", 0, c.entry)
 		if assert.NoError(t, err, c.entry) {
 			code, err := entryTOTP(entry, time.Unix(c.unix, 0))
 			assert.NoError(t, err, c.entry)
@@ -145,7 +145,7 @@ func TestEntryTOTP(t *testing.T) {
 	}
 
 	t.Run("Steam is rejected", func(t *testing.T) {
-		_, entry, err := openEntry(dbPath, "", "Abc12345", "TOTP/Steam")
+		_, entry, err := openEntry(dbPath, "", "Abc12345", 0, "TOTP/Steam")
 		if assert.NoError(t, err) {
 			_, err := entryTOTP(entry, time.Now())
 			assert.ErrorContains(t, err, "steam")

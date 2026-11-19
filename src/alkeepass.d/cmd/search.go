@@ -17,8 +17,10 @@ import (
 // buildCredentials assembles KeePass credentials from a master password
 // and/or a key file path. It propagates the error returned by the key file
 // based constructors (e.g. a missing or unreadable key file) instead of
-// discarding it, and returns an error when neither is configured.
-func buildCredentials(passwd, keyfilepath string) (*gokeepasslib.DBCredentials, error) {
+// discarding it. A YubiKey slot alone yields empty credentials, which
+// addChallengeResponse completes with the YubiKey's response, and nothing at
+// all an empty password, the only key a database can then have.
+func buildCredentials(passwd, keyfilepath string, yubikeySlot int) (*gokeepasslib.DBCredentials, error) {
 	switch {
 	case passwd != "" && keyfilepath != "":
 		return gokeepasslib.NewPasswordAndKeyCredentials(passwd, keyfilepath)
@@ -26,8 +28,10 @@ func buildCredentials(passwd, keyfilepath string) (*gokeepasslib.DBCredentials, 
 		return gokeepasslib.NewPasswordCredentials(passwd), nil
 	case keyfilepath != "":
 		return gokeepasslib.NewKeyCredentials(keyfilepath)
+	case yubikeySlot != 0:
+		return &gokeepasslib.DBCredentials{}, nil
 	default:
-		return nil, errors.New("no master password in the keychain: run `kp:setpass` in Alfred (or configure a key file)")
+		return gokeepasslib.NewPasswordCredentials(""), nil
 	}
 }
 
@@ -49,21 +53,7 @@ var getCmd = &cobra.Command{
 }
 
 func searchMain(cmd *cobra.Command, args []string) {
-	var alf *AlfredJSON
-	if locked, err := keychainLocked(); err == nil && locked {
-		alf = lockedJSON(strings.Join(queryTerms(args), " "), unlockAction)
-	} else if passwd, err := readKeychain(); err != nil {
-		alf = errorJSON(err)
-	} else {
-		alf = runSearch(
-			os.Getenv("keepassxc_db_path"),
-			os.Getenv("keepassxc_keyfile_path"),
-			passwd,
-			queryTerms(args),
-			parseCacheSeconds(os.Getenv("keepassxc_cache_seconds")),
-		)
-	}
-	s, _ := json.Marshal(alf)
+	s, _ := json.Marshal(runSearch(queryTerms(args)))
 	fmt.Println(string(s))
 }
 
@@ -129,106 +119,69 @@ func lockedJSON(arg, action string) *AlfredJSON {
 	return &AlfredJSON{Items: []AlfredJSONItem{item}}
 }
 
-// runSearch resolves credentials, runs the search and converts any error into
-// an Alfred error item. On success the result carries a cache window so Alfred
-// can avoid re-decrypting the database for repeated identical queries; errors
-// are never cached.
-func runSearch(kbdxpath, keyfilepath, passwd string, query []string, cacheSeconds int) *AlfredJSON {
-	cred, err := buildCredentials(passwd, keyfilepath)
-	if err != nil {
+// runSearch opens the configured database, runs the search and converts any
+// error into an Alfred error item, or into the locked item while the keychain
+// is locked. On success the result carries a cache window so Alfred can avoid
+// re-decrypting the database for repeated identical queries; errors are never
+// cached.
+func runSearch(query []string) *AlfredJSON {
+	db, err := openConfiguredDatabase(false)
+	switch {
+	case errors.Is(err, errKeychainLocked):
+		return lockedJSON(strings.Join(query, " "), unlockAction)
+	case err != nil:
 		return errorJSON(err)
 	}
-
-	alf, err := search(kbdxpath, cred, query)
-	if err != nil {
-		return errorJSON(err)
+	alf := searchDatabase(db, query)
+	alf.Cache = &AlfredCache{
+		Seconds:     parseCacheSeconds(os.Getenv("keepassxc_cache_seconds")),
+		LooseReload: true,
 	}
-	alf.Cache = &AlfredCache{Seconds: cacheSeconds, LooseReload: true}
 	return alf
 }
 
-// openDatabase opens and decodes the KeePass database at kbdxpath. The error
-// from os.Open (e.g. a missing or unreadable database file) is no longer
-// discarded so the caller can report it instead of crashing on a nil reader.
-func openDatabase(kbdxpath string, cred *gokeepasslib.DBCredentials) (*gokeepasslib.Database, error) {
-	file, err := os.Open(kbdxpath)
-	if err != nil {
-		return nil, errors.WithStack(err)
-	}
-	defer file.Close()
-
-	return openKbdx(file, cred)
-}
-
-func search(kbdxpath string, cred *gokeepasslib.DBCredentials, query []string) (*AlfredJSON, error) {
-	db, err := openDatabase(kbdxpath, cred)
-	if err != nil {
-		return nil, err
-	}
-
-	root := db.Content.Root
+// searchDatabase lists the entries of db that match query.
+func searchDatabase(db *gokeepasslib.Database, query []string) *AlfredJSON {
 	result := []KPEntry{}
-	scan(&root.Groups, []string{}, query, &result) // start recursive scan
-	alf := readEntries(result, query)              // search
+	scan(&db.Content.Root.Groups, []string{}, query, &result) // start recursive scan
+	alf := readEntries(result, query)                         // search
 	alf.Variables.Query = strings.Join(query, " ")
-
-	return alf, nil
+	return alf
 }
 
 func getMain(cmd *cobra.Command, args []string) {
-	var alf *AlfredJSON
-	if locked, err := keychainLocked(); err == nil && locked {
-		alf = lockedJSON("back", "")
-	} else if passwd, err := readKeychain(); err != nil {
-		alf = errorJSON(err)
-	} else {
-		alf = runGet(
-			os.Getenv("keepassxc_db_path"),
-			os.Getenv("keepassxc_keyfile_path"),
-			passwd,
-			args,
-		)
-	}
-	s, _ := json.Marshal(alf)
+	s, _ := json.Marshal(runGet(args))
 	fmt.Println(string(s))
 }
 
-// runGet resolves credentials, builds the entry detail view and converts any
-// error into an Alfred error item. The entry path is taken from the first
-// argument; a missing argument is reported instead of panicking on args[0].
-func runGet(kbdxpath, keyfilepath, passwd string, args []string) *AlfredJSON {
+// runGet opens the configured database, builds the entry detail view and
+// converts any error into an Alfred error item, or into the locked item while
+// the keychain is locked. The entry path is taken from the first argument; a
+// missing argument is reported instead of panicking on args[0].
+func runGet(args []string) *AlfredJSON {
 	if len(args) == 0 {
 		return errorJSON(errors.New("no entry path given"))
 	}
-
-	cred, err := buildCredentials(passwd, keyfilepath)
-	if err != nil {
+	db, err := openConfiguredDatabase(false)
+	switch {
+	case errors.Is(err, errKeychainLocked):
+		return lockedJSON("back", "")
+	case err != nil:
 		return errorJSON(err)
 	}
-
-	alf, err := get(kbdxpath, cred, args[0])
+	alf, err := entryDetails(db, args[0])
 	if err != nil {
 		return errorJSON(err)
 	}
 	return alf
 }
 
-// get builds the detail view for a single entry identified by entryPath.
-// It returns an error when the database cannot be opened or the entry does
-// not exist, rather than panicking.
-func get(kbdxpath string, cred *gokeepasslib.DBCredentials, entryPath string) (*AlfredJSON, error) {
-	db, err := openDatabase(kbdxpath, cred)
+// entryDetails builds the detail view for the entry of db that ref refers to
+// (see findEntry). It returns an error when there is no such entry.
+func entryDetails(db *gokeepasslib.Database, ref string) (*AlfredJSON, error) {
+	entry, err := findEntry(db, ref)
 	if err != nil {
 		return nil, err
-	}
-
-	root := db.Content.Root
-	result := []KPEntry{}
-	scan(&root.Groups, []string{}, nil, &result) // start recursive scan
-
-	entry := getEntry(result, entryPath)
-	if entry == nil {
-		return nil, errors.Errorf("entry not found: %s", entryPath)
 	}
 
 	alf := &AlfredJSON{}
@@ -321,16 +274,40 @@ func get(kbdxpath string, cred *gokeepasslib.DBCredentials, entryPath string) (*
 	return alf, nil
 }
 
-// readEntries scans all entries in []KPEntry for filtered result
-func getEntry(kpe []KPEntry, path string) *KPEntry {
-	for i, entry := range kpe {
-		entryPath := strings.Join(kpe[i].Path[1:], "/") // remove the top-level (root) group from path
-		if entryPath != path {
-			continue
+// findEntry returns the entry of db that ref refers to: its UUID, which
+// search results pass on, or its path, which then has to be unique.
+func findEntry(db *gokeepasslib.Database, ref string) (*KPEntry, error) {
+	entries := []KPEntry{}
+	scan(&db.Content.Root.Groups, []string{}, nil, &entries)
+	var found []KPEntry
+	for _, entry := range entries {
+		if entryRef(entry.Entry) == ref {
+			return &entry, nil
 		}
-		return &entry
+		if entryPath(entry) == ref {
+			found = append(found, entry)
+		}
 	}
-	return nil
+	switch len(found) {
+	case 0:
+		return nil, errors.Errorf("entry not found: %s", ref)
+	case 1:
+		return &found[0], nil
+	}
+	return nil, errors.Errorf("%d entries have the path %s: pick one in the search results instead", len(found), ref)
+}
+
+// entryRef returns what search results pass on to refer to entry: its UUID,
+// which unlike its path is unique.
+func entryRef(entry gokeepasslib.Entry) string {
+	uuid, _ := entry.UUID.MarshalText()
+	return string(uuid)
+}
+
+// entryPath returns the path of entry, i.e. its groups and title, without the
+// top-level (root) group.
+func entryPath(entry KPEntry) string {
+	return strings.Join(entry.Path[1:], "/")
 }
 
 // readEntries scans all entries in []KPEntry for filtered result
@@ -339,9 +316,9 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 	// is common for tag filters) marshals to "items": [] rather than null.
 	alf := AlfredJSON{Items: []AlfredJSONItem{}}
 	pathTerms, tagTerms := splitQuery(query)
-	for i, entry := range kpe {
-		uuid, _ := entry.Entry.UUID.MarshalText()
-		path := strings.Join(kpe[i].Path[1:], "/") // remove the top-level (root) group from path
+	for _, entry := range kpe {
+		ref := entryRef(entry.Entry)
+		path := entryPath(entry)
 
 		// Path terms filter on the entry path; "#" terms filter on its tags.
 		if !matchesQuery(path, pathTerms) || !matchesQuery(entry.Entry.Tags, tagTerms) {
@@ -349,20 +326,22 @@ func readEntries(kpe []KPEntry, query []string) *AlfredJSON {
 		}
 
 		item := AlfredJSONItem{
-			Uid:      string(uuid),
+			Uid:      ref,
 			Title:    entry.Entry.GetTitle(),
 			Subtitle: path,
 
 			Mods: AlfredMods{
-				Cmd:       AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
-				Alt:       AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
-				AltShift:  AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
-				CmdAlt:    AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
-				Ctrl:      AlfredModItem{Arg: path, Valid: true},
-				CtrlShift: AlfredModItem{Arg: path, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				Cmd:       AlfredModItem{Arg: ref, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				Alt:       AlfredModItem{Arg: ref, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				AltShift:  AlfredModItem{Arg: ref, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				CmdAlt:    AlfredModItem{Arg: ref, Icon: &AlfredIcon{Path: "./icon-na.png"}},
+				Ctrl:      AlfredModItem{Arg: ref, Valid: true},
+				CtrlShift: AlfredModItem{Arg: ref, Icon: &AlfredIcon{Path: "./icon-na.png"}},
 			},
 
-			Arg: path,
+			Arg: ref,
+			// what Cmd+C copies and Cmd+L shows, instead of the UUID
+			Text: &AlfredText{Copy: path, LargeType: path},
 		}
 
 		if entry.Entry.Times.Expires.Bool &&
