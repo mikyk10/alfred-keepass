@@ -223,8 +223,14 @@ func findAttribute(entry *gokeepasslib.Entry, name string) (string, error) {
 }
 
 // exportAttachment writes the attachment called name of entry to path,
-// replacing the file if it exists, as keepassxc-cli does.
+// replacing the file if it exists, as keepassxc-cli does. The workflow saves
+// the attachment under its name in ~/Downloads, so a name that is not a plain
+// file name is refused: the database could otherwise make it write anywhere,
+// e.g. over ~/.zshrc with "../.zshrc".
 func exportAttachment(db *gokeepasslib.Database, entry *gokeepasslib.Entry, name, path string) error {
+	if name == "" || name == "." || name == ".." || strings.ContainsAny(name, "/\x00") {
+		return errors.Errorf("refusing to save an attachment named %q, which is not a plain file name", name)
+	}
 	for _, ref := range entry.Binaries {
 		if ref.Name != name {
 			continue
