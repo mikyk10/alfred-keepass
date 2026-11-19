@@ -6,6 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/tobischo/gokeepasslib/v3"
+	w "github.com/tobischo/gokeepasslib/v3/wrappers"
 )
 
 func TestKBDX(t *testing.T) {
@@ -112,5 +113,55 @@ func TestFindEntry(t *testing.T) {
 	t.Run("no such entry", func(t *testing.T) {
 		_, err := findEntry(db, "Personal/Gmail")
 		assert.ErrorContains(t, err, "entry not found")
+	})
+}
+
+func TestEntryDetailsMaskProtectedValues(t *testing.T) {
+	entry := gokeepasslib.NewEntry()
+	for _, v := range []struct {
+		key, value string
+		protected  bool
+	}{
+		{"Title", "Example", false},
+		{"UserName", "alice", false},
+		{"Password", "secret", true},
+		{"Notes", "protected notes", true},
+		{"Recovery Code", "1234-5678", true},
+		{"Email", "alice@example.com", false},
+	} {
+		entry.Values = append(entry.Values, gokeepasslib.ValueData{
+			Key:   v.key,
+			Value: gokeepasslib.V{Content: v.value, Protected: w.NewBoolWrapper(v.protected)},
+		})
+	}
+	root := gokeepasslib.NewGroup()
+	root.Name = "Root"
+	root.Entries = []gokeepasslib.Entry{entry}
+	db := gokeepasslib.NewDatabase()
+	db.Content.Root = &gokeepasslib.RootData{Groups: []gokeepasslib.Group{root}}
+
+	alf, err := entryDetails(db, entryRef(entry))
+	if !assert.NoError(t, err) {
+		return
+	}
+	shown := map[string]string{}
+	for _, item := range alf.Items {
+		shown[item.Arg] = item.Subtitle
+	}
+	assert.Equal(t, "alice", shown["username"])
+	assert.Equal(t, "*****", shown["password"])
+	assert.Equal(t, "*****", shown["notes"])
+	assert.Equal(t, "*****", shown["Recovery Code"])
+	assert.Equal(t, "alice@example.com", shown["Email"])
+
+	t.Run("protection survives opening the database", func(t *testing.T) {
+		useWorkflow(t, filepath.Join("testdata", "actions.kdbx"), "Abc12345", nil)
+		for _, item := range runGet([]string{"Example"}).Items {
+			if item.Arg == "Recovery Code" {
+				assert.Equal(t, "*****", item.Subtitle)
+				return
+			}
+		}
+		t.Error("no Recovery Code item")
 	})
 }
