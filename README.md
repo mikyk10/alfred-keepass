@@ -76,8 +76,10 @@ While it is unlocked, the item can be read through the `security` command by any
 
 ## Limitation
 
-* Currently `master password` encrypted .kdbx is supported. Not much tested yet.
+* Databases protected with a master password, a key file and a YubiKey, in any combination, are supported. Not much tested yet.
 * YubiKey challenge-response works with KDBX 4 databases only (KeePassXC's default format), and only through the YubiKey's smart card interface.
+* With several YubiKeys plugged in (or on the NFC reader), the first one that answers the configured slot is used, even if it holds another secret than the one that protects the database. Keep only that YubiKey connected.
+* All copies of the workflow share one key cache. A copy set up for another database, or with the cache turned off, makes the cache forget the key that the other copy cached, which then derives it again.
 * TOTP is generated from the `otpauth://` URI that KeePassXC stores in the `otp` attribute. Steam and HOTP tokens are not supported.
 
 ## Requirements

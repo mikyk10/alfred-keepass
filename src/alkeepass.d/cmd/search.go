@@ -195,7 +195,7 @@ func entryDetails(db *gokeepasslib.Database, ref string) (*AlfredJSON, error) {
 		alf.Items = append(alf.Items, AlfredJSONItem{
 			Uid:      "2",
 			Title:    "👤 UserName",
-			Subtitle: entry.Entry.GetContent("UserName"),
+			Subtitle: shownValue(&entry.Entry, "UserName"),
 			Arg:      "username",
 		})
 	}
@@ -203,7 +203,7 @@ func entryDetails(db *gokeepasslib.Database, ref string) (*AlfredJSON, error) {
 		alf.Items = append(alf.Items, AlfredJSONItem{
 			Uid:      "3",
 			Title:    "*️⃣ Password",
-			Subtitle: "*****",
+			Subtitle: maskedValue,
 			Arg:      "password",
 		})
 	}
@@ -211,7 +211,7 @@ func entryDetails(db *gokeepasslib.Database, ref string) (*AlfredJSON, error) {
 		alf.Items = append(alf.Items, AlfredJSONItem{
 			Uid:      "4",
 			Title:    "🌏 URL",
-			Subtitle: entry.Entry.GetContent("URL"),
+			Subtitle: shownValue(&entry.Entry, "URL"),
 			Arg:      "url",
 		})
 	}
@@ -219,7 +219,7 @@ func entryDetails(db *gokeepasslib.Database, ref string) (*AlfredJSON, error) {
 		alf.Items = append(alf.Items, AlfredJSONItem{
 			Uid:      "5",
 			Title:    "📄 Notes",
-			Subtitle: entry.Entry.GetContent("Notes"),
+			Subtitle: shownValue(&entry.Entry, "Notes"),
 			Arg:      "notes",
 		})
 	}
@@ -255,7 +255,7 @@ func entryDetails(db *gokeepasslib.Database, ref string) (*AlfredJSON, error) {
 			alf.Items = append(alf.Items, AlfredJSONItem{
 				Uid:      strconv.Itoa(i + 6),
 				Title:    "☁️ " + item.Key,
-				Subtitle: entry.Entry.GetContent(item.Key),
+				Subtitle: shownValue(&entry.Entry, item.Key),
 				Arg:      item.Key,
 			})
 		}
@@ -272,6 +272,24 @@ func entryDetails(db *gokeepasslib.Database, ref string) (*AlfredJSON, error) {
 	}
 
 	return alf, nil
+}
+
+// maskedValue is what the detail view shows instead of a protected value.
+const maskedValue = "*****"
+
+// shownValue returns the value of the attribute key of entry as the detail
+// view shows it: masked if the database protects it, as KeePassXC shows such
+// values, so that e.g. a recovery code does not appear on screen. Copying it
+// still copies the value.
+func shownValue(entry *gokeepasslib.Entry, key string) string {
+	v := entry.Get(key)
+	switch {
+	case v == nil:
+		return ""
+	case v.Value.Protected.Bool:
+		return maskedValue
+	}
+	return v.Value.Content
 }
 
 // findEntry returns the entry of db that ref refers to: its UUID, which

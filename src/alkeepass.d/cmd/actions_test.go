@@ -160,6 +160,20 @@ func TestExportAttachment(t *testing.T) {
 		assert.Equal(t, "Hello, KeePass!\n", string(got))
 	})
 
+	t.Run("a name that is not a plain file name is refused", func(t *testing.T) {
+		db := gokeepasslib.NewDatabase()
+		entry := gokeepasslib.NewEntry()
+		dir := t.TempDir()
+		require.NoError(t, os.Mkdir(filepath.Join(dir, "Downloads"), 0700))
+		for _, name := range []string{"../escaped.txt", "a/b.txt", "..", ".", "", "nul\x00.txt"} {
+			entry.Binaries = append(entry.Binaries, db.AddBinary([]byte("data")).CreateReference(name))
+			// as the workflow builds the path, from a directory and the name
+			path := filepath.Join(dir, "Downloads") + "/" + name
+			assert.ErrorContains(t, exportAttachment(db, &entry, name, path), "not a plain file name", "%q", name)
+		}
+		assert.NoFileExists(t, filepath.Join(dir, "escaped.txt"))
+	})
+
 	t.Run("a missing attachment is an error and writes nothing", func(t *testing.T) {
 		path := filepath.Join(t.TempDir(), "missing.txt")
 		assert.ErrorContains(t, exportAttachment(db, entry, "missing.txt", path), "attachment not found")
