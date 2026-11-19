@@ -24,7 +24,15 @@ type AlfredJSONItem struct {
 	Subtitle string `json:"subtitle,omitempty"`
 	//Icon string `json:"icon"`
 	Mods      AlfredMods        `json:"mods"`
+	Text      *AlfredText       `json:"text,omitempty"`
 	Variables map[string]string `json:"variables,omitempty"`
+}
+
+// AlfredText is the text Alfred copies (Cmd+C) and shows in Large Type
+// (Cmd+L) for an item, instead of its arg.
+type AlfredText struct {
+	Copy      string `json:"copy,omitempty"`
+	LargeType string `json:"largetype,omitempty"`
 }
 
 // AlfredCache maps to Alfred's Script Filter result cache. When present,

@@ -15,14 +15,14 @@ import (
 func TestOpenArgon2id(t *testing.T) {
 	dbPath := filepath.Join("testdata", "argon2id.kdbx")
 
-	db, err := openDatabase(dbPath, gokeepasslib.NewPasswordCredentials("Abc12345"))
+	db, err := openDatabase(dbPath, gokeepasslib.NewPasswordCredentials("Abc12345"), 0)
 	if assert.NoError(t, err) {
 		entry := db.Content.Root.Groups[0].Entries[0]
 		assert.Equal(t, "Entry1", entry.GetTitle())
 		assert.Equal(t, "secret1", entry.GetPassword())
 	}
 
-	_, err = openDatabase(dbPath, gokeepasslib.NewPasswordCredentials("wrong"))
+	_, err = openDatabase(dbPath, gokeepasslib.NewPasswordCredentials("wrong"), 0)
 	assert.Error(t, err)
 }
 
@@ -33,31 +33,31 @@ func TestOpenErrors(t *testing.T) {
 	dbPath := filepath.Join("testdata", "test.kdbx")
 
 	t.Run("missing database file", func(t *testing.T) {
-		db, err := openDatabase(filepath.Join("testdata", "does-not-exist.kdbx"), good)
+		db, err := openDatabase(filepath.Join("testdata", "does-not-exist.kdbx"), good, 0)
 		assert.Error(t, err)
 		assert.Nil(t, db)
 	})
 
 	t.Run("search on missing database file", func(t *testing.T) {
-		alf, err := search(filepath.Join("testdata", "does-not-exist.kdbx"), good, []string{"Entry1"})
+		alf, err := search(filepath.Join("testdata", "does-not-exist.kdbx"), good, 0, []string{"Entry1"})
 		assert.Error(t, err)
 		assert.Nil(t, alf)
 	})
 
 	t.Run("search with wrong password", func(t *testing.T) {
-		alf, err := search(dbPath, gokeepasslib.NewPasswordCredentials("wrong"), []string{"Entry1"})
+		alf, err := search(dbPath, gokeepasslib.NewPasswordCredentials("wrong"), 0, []string{"Entry1"})
 		assert.Error(t, err)
 		assert.Nil(t, alf)
 	})
 
 	t.Run("get on missing entry", func(t *testing.T) {
-		alf, err := get(dbPath, good, "NoSuchEntry")
+		alf, err := get(dbPath, good, 0, "NoSuchEntry")
 		assert.Error(t, err)
 		assert.Nil(t, alf)
 	})
 
 	t.Run("get succeeds for an existing entry", func(t *testing.T) {
-		alf, err := get(dbPath, good, "Entry1")
+		alf, err := get(dbPath, good, 0, "Entry1")
 		assert.NoError(t, err)
 		assert.NotNil(t, alf)
 		assert.Equal(t, "← Back", alf.Items[0].Title)

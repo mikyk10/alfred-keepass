@@ -15,27 +15,30 @@ func TestKBDX(t *testing.T) {
 	cred := gokeepasslib.NewPasswordCredentials("Abc12345")
 
 	// Entry1 lives directly under the top-level group and has UserName, URL and Notes.
-	alf, err = search(filepath.Join("testdata", "test.kdbx"), cred, []string{"Entry1"})
+	alf, err = search(filepath.Join("testdata", "test.kdbx"), cred, 0, []string{"Entry1"})
 	assert.NoError(t, err)
 	assert.Equal(t, "Entry1", alf.Items[0].Title)
 	// The top-level "Root" group must be stripped from the path (issue #1).
 	assert.Equal(t, "Entry1", alf.Items[0].Subtitle)
-	assert.Equal(t, "Entry1", alf.Items[0].Arg)
-	assert.Equal(t, "Entry1", alf.Items[0].Mods.Cmd.Arg)
-	assert.Equal(t, "Entry1", alf.Items[0].Mods.Alt.Arg)
+	// The actions get the UUID of the entry, which unlike its path is unique.
+	assert.Len(t, alf.Items[0].Uid, 24)
+	assert.Equal(t, alf.Items[0].Uid, alf.Items[0].Arg)
+	assert.Equal(t, alf.Items[0].Uid, alf.Items[0].Mods.Cmd.Arg)
+	assert.Equal(t, alf.Items[0].Uid, alf.Items[0].Mods.Alt.Arg)
+	assert.Equal(t, &AlfredText{Copy: "Entry1", LargeType: "Entry1"}, alf.Items[0].Text)
 	assert.True(t, alf.Items[0].Mods.Cmd.Valid)    // UserName present
 	assert.True(t, alf.Items[0].Mods.Alt.Valid)    // URL present
 	assert.True(t, alf.Items[0].Mods.CmdAlt.Valid) // Notes present
 	assert.NotEmpty(t, alf.Items[0].Uid)
 
 	// Entry2 has UserName and URL but no Notes.
-	alf, err = search(filepath.Join("testdata", "test.kdbx"), cred, []string{"Entry2"})
+	alf, err = search(filepath.Join("testdata", "test.kdbx"), cred, 0, []string{"Entry2"})
 	assert.NoError(t, err)
 	assert.Equal(t, "Entry2", alf.Items[0].Title)
 	assert.Equal(t, "Entry2", alf.Items[0].Subtitle)
-	assert.Equal(t, "Entry2", alf.Items[0].Arg)
-	assert.Equal(t, "Entry2", alf.Items[0].Mods.Cmd.Arg)
-	assert.Equal(t, "Entry2", alf.Items[0].Mods.Alt.Arg)
+	assert.Equal(t, alf.Items[0].Uid, alf.Items[0].Arg)
+	assert.Equal(t, alf.Items[0].Uid, alf.Items[0].Mods.Cmd.Arg)
+	assert.Equal(t, alf.Items[0].Uid, alf.Items[0].Mods.Alt.Arg)
 	assert.True(t, alf.Items[0].Mods.Cmd.Valid)     // UserName present
 	assert.True(t, alf.Items[0].Mods.Alt.Valid)     // URL present
 	assert.False(t, alf.Items[0].Mods.CmdAlt.Valid) // no Notes
@@ -60,8 +63,54 @@ func TestCtrlShiftTOTPMod(t *testing.T) {
 
 	assert.Len(t, alf.Items, 2)
 	assert.True(t, alf.Items[0].Mods.CtrlShift.Valid) // TOTP present
-	assert.Equal(t, "WithOTP", alf.Items[0].Mods.CtrlShift.Arg)
+	assert.Equal(t, entryRef(withOTP), alf.Items[0].Mods.CtrlShift.Arg)
 	assert.Nil(t, alf.Items[0].Mods.CtrlShift.Icon)
 	assert.False(t, alf.Items[1].Mods.CtrlShift.Valid) // no TOTP
-	assert.Equal(t, "NoOTP", alf.Items[1].Mods.CtrlShift.Arg)
+	assert.Equal(t, entryRef(withoutOTP), alf.Items[1].Mods.CtrlShift.Arg)
+}
+
+func TestFindEntry(t *testing.T) {
+	newEntry := func(title string) gokeepasslib.Entry {
+		e := gokeepasslib.NewEntry()
+		e.Values = append(e.Values, gokeepasslib.ValueData{Key: "Title", Value: gokeepasslib.V{Content: title}})
+		return e
+	}
+	first, second, other := newEntry("Google"), newEntry("Google"), newEntry("Google")
+	group := gokeepasslib.NewGroup()
+	group.Name = "Personal"
+	group.Entries = []gokeepasslib.Entry{first, second}
+	work := gokeepasslib.NewGroup()
+	work.Name = "Work"
+	work.Entries = []gokeepasslib.Entry{other}
+	root := gokeepasslib.NewGroup()
+	root.Name = "Root"
+	root.Groups = []gokeepasslib.Group{group, work}
+	db := gokeepasslib.NewDatabase()
+	db.Content.Root = &gokeepasslib.RootData{Groups: []gokeepasslib.Group{root}}
+
+	t.Run("by UUID", func(t *testing.T) {
+		for _, e := range []gokeepasslib.Entry{first, second, other} {
+			found, err := findEntry(db, entryRef(e))
+			if assert.NoError(t, err) {
+				assert.Equal(t, e.UUID, found.Entry.UUID)
+			}
+		}
+	})
+
+	t.Run("by a unique path", func(t *testing.T) {
+		found, err := findEntry(db, "Work/Google")
+		if assert.NoError(t, err) {
+			assert.Equal(t, other.UUID, found.Entry.UUID)
+		}
+	})
+
+	t.Run("a path that is not unique", func(t *testing.T) {
+		_, err := findEntry(db, "Personal/Google")
+		assert.ErrorContains(t, err, "2 entries have the path Personal/Google")
+	})
+
+	t.Run("no such entry", func(t *testing.T) {
+		_, err := findEntry(db, "Personal/Gmail")
+		assert.ErrorContains(t, err, "entry not found")
+	})
 }

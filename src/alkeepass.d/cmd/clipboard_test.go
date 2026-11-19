@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 	"time"
 
@@ -10,14 +11,32 @@ import (
 )
 
 // TestMain keeps every test away from the real clipboard and from starting
-// the clearing process; tests that need them install fakes.
+// the clearing process, from the user's key agent (the tests use a socket of
+// their own and must not start an agent process) and from the user's
+// keychain. Tests that need them install fakes.
 func TestMain(m *testing.M) {
+	readKeychain = func() (string, error) { return "", errors.New("tests must not read the real keychain") }
+	keychainLocked = func() (bool, error) { return false, errors.New("tests must not check the real keychain") }
+	unlockKeychain = func() error { return errors.New("tests must not unlock the real keychain") }
 	writeClipboard = func(string) error { return errors.New("tests must not write to the real clipboard") }
 	readClipboard = func() (string, error) { return "", errors.New("tests must not read the real clipboard") }
 	startClipboardClear = func(string, time.Duration) error {
 		return errors.New("tests must not start a process to clear the clipboard")
 	}
-	os.Exit(m.Run())
+
+	// Unix socket paths are short, so this is not under t.TempDir().
+	dir, err := os.MkdirTemp("", "kp")
+	if err != nil {
+		panic(err)
+	}
+	agentSocket = func() string { return filepath.Join(dir, "agent", "agent.sock") }
+	startKeyAgent = func(agentRequest) error {
+		return errors.New("tests must not start a key agent process")
+	}
+	lockKeychain = func() error { return errors.New("tests must not lock the real keychain") }
+	code := m.Run()
+	os.RemoveAll(dir)
+	os.Exit(code)
 }
 
 // fakeClipboard stands in for the clipboard and records what was written.

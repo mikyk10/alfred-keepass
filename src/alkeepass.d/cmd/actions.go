@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -16,7 +17,8 @@ import (
 // The commands below back the workflow's copy, open and export actions. They
 // follow the keepassxc-cli commands that those actions used to run, without
 // the database argument: like search, they open the configured database with
-// the master password from the keychain and the configured key file.
+// the master password from the keychain and the configured key file. The
+// entry is given by its UUID, as search results pass it on, or by its path.
 
 var clipCmd = &cobra.Command{
 	Use:   "clip [flags] entry [timeout]",
@@ -57,11 +59,19 @@ var clearClipboardCmd = &cobra.Command{
 const defaultClipTimeout = 10 * time.Second
 
 func init() {
-	for _, c := range []*cobra.Command{clipCmd, showCmd} {
-		c.Flags().StringP("attribute", "a", "password",
-			"attribute to use; matched case-insensitively if there is no exact match")
-		c.Flags().BoolP("totp", "t", false, "use the current TOTP instead of an attribute")
-	}
+	addValueFlags(clipCmd)
+	addValueFlags(showCmd)
+	showCmd.Flags().Bool("alfred", false,
+		"print the value or the error as the JSON output of an Alfred Run Script action, the error in the variable kp_error, and exit 0")
+}
+
+// addValueFlags adds the flags that select the value of an entry to c.
+func addValueFlags(c *cobra.Command) {
+	c.Flags().StringP("attribute", "a", "password",
+		"attribute to use; matched case-insensitively if there is no exact match")
+	c.Flags().BoolP("totp", "t", false, "use the current TOTP instead of an attribute")
+	c.Flags().Bool("prepend-totp", false,
+		"put the current TOTP in front of the attribute, for sites that take both in one field")
 }
 
 func clipMain(cmd *cobra.Command, args []string) {
@@ -80,8 +90,33 @@ func clipMain(cmd *cobra.Command, args []string) {
 
 func showMain(cmd *cobra.Command, args []string) {
 	value, err := selectedValue(cmd, args[0])
+	if alfred, _ := cmd.Flags().GetBool("alfred"); alfred {
+		os.Stdout.Write(alfredOutput(value, err))
+		return
+	}
 	exitOnError(err)
 	fmt.Println(value)
+}
+
+// alfredOutput returns the JSON output of an Alfred Run Script action that
+// passes on value, or, if err is set, an empty argument. The variable
+// kp_error holds the error, if any, so that the workflow can tell the user
+// instead of carrying on.
+func alfredOutput(value string, err error) []byte {
+	var out struct {
+		Workflow struct {
+			Arg       string            `json:"arg"`
+			Variables map[string]string `json:"variables"`
+		} `json:"alfredworkflow"`
+	}
+	out.Workflow.Arg = value
+	out.Workflow.Variables = map[string]string{"kp_error": ""}
+	if err != nil {
+		out.Workflow.Arg = ""
+		out.Workflow.Variables["kp_error"] = err.Error()
+	}
+	b, _ := json.Marshal(out)
+	return b
 }
 
 func attachmentExportMain(cmd *cobra.Command, args []string) {
@@ -107,57 +142,46 @@ func exitOnError(err error) {
 	}
 }
 
-// selectedValue returns the value that the --attribute or --totp flag of cmd
-// selects in the entry at entryPath.
-func selectedValue(cmd *cobra.Command, entryPath string) (string, error) {
+// selectedValue returns the value that the flags added by addValueFlags to
+// cmd select in the entry that ref refers to.
+func selectedValue(cmd *cobra.Command, ref string) (string, error) {
 	attr, _ := cmd.Flags().GetString("attribute")
 	useTOTP, _ := cmd.Flags().GetBool("totp")
-	if useTOTP && cmd.Flags().Changed("attribute") {
-		return "", errors.New("specify either --attribute or --totp, not both")
+	prependTOTP, _ := cmd.Flags().GetBool("prepend-totp")
+	if useTOTP && (cmd.Flags().Changed("attribute") || prependTOTP) {
+		return "", errors.New("--totp takes neither --attribute nor --prepend-totp")
 	}
 
-	_, entry, err := openConfiguredEntry(entryPath)
+	_, entry, err := openConfiguredEntry(ref)
 	if err != nil {
 		return "", err
 	}
 	if useTOTP {
 		return entryTOTP(entry, time.Now())
 	}
-	return findAttribute(entry, attr)
+	value, err := findAttribute(entry, attr)
+	if err != nil || !prependTOTP {
+		return value, err
+	}
+	// The TOTP comes last, so that it is as fresh as it can be.
+	otp, err := entryTOTP(entry, time.Now())
+	if err != nil {
+		return "", err
+	}
+	return otp + value, nil
 }
 
-// openConfiguredEntry opens the configured database and returns the entry at
-// entryPath. Like `password`, it unlocks the keychain first so that the
-// dialog has been answered before the master password is read.
-func openConfiguredEntry(entryPath string) (*gokeepasslib.Database, *gokeepasslib.Entry, error) {
-	if err := unlockKeychain(); err != nil {
-		return nil, nil, err
-	}
-	passwd, err := readKeychain()
+// openConfiguredEntry opens the configured database and returns the entry
+// that ref refers to (see findEntry). If the master password is needed, it
+// asks the user to unlock the keychain first, as `password` does.
+func openConfiguredEntry(ref string) (*gokeepasslib.Database, *gokeepasslib.Entry, error) {
+	db, err := openConfiguredDatabase(true)
 	if err != nil {
 		return nil, nil, err
 	}
-	return openEntry(os.Getenv("keepassxc_db_path"), os.Getenv("keepassxc_keyfile_path"), passwd, entryPath)
-}
-
-// openEntry opens the database at kbdxpath with the same credentials as
-// search and returns it with the entry at entryPath, the path that search
-// results carry.
-func openEntry(kbdxpath, keyfilepath, passwd, entryPath string) (*gokeepasslib.Database, *gokeepasslib.Entry, error) {
-	cred, err := buildCredentials(passwd, keyfilepath)
+	entry, err := findEntry(db, ref)
 	if err != nil {
 		return nil, nil, err
-	}
-	db, err := openDatabase(kbdxpath, cred)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	result := []KPEntry{}
-	scan(&db.Content.Root.Groups, []string{}, nil, &result)
-	entry := getEntry(result, entryPath)
-	if entry == nil {
-		return nil, nil, errors.Errorf("entry not found: %s", entryPath)
 	}
 	return db, &entry.Entry, nil
 }
